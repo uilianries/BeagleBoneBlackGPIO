@@ -14,6 +14,7 @@ int main()
         ogpio << bbb::gpio::pin_level::high;
         sleep(blink_interval);
         ogpio << bbb::gpio::pin_level::low;
+        sleep(blink_interval);
     }
 
     return 0;

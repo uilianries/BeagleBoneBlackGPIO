@@ -30,6 +30,7 @@ namespace gpio {
     void exportation::push(size_t index)
     {
         export_fd_ << index;
+        export_fd_.flush();
     }
 }
 }

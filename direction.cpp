@@ -1,6 +1,6 @@
 #include "direction.hpp"
 
-#include <unordered_map>
+#include <map>
 #include <string>
 #include <utility>
 
@@ -10,16 +10,7 @@
 namespace bbb {
 namespace gpio {
 
-    struct enum_hash {
-        template <typename T>
-        inline typename std::enable_if<std::is_enum<T>::value, std::size_t>::type
-        operator()(T const value) const
-        {
-            return static_cast<std::size_t>(value);
-        }
-    };
-
-    using direction_stringify = std::unordered_map<stream_direction, std::string, enum_hash>;
+    typedef std::map<stream_direction, std::string> direction_stringify;
 
     static const direction_stringify direction_string = {
         { stream_direction::input, "in" },
@@ -51,7 +42,8 @@ namespace gpio {
 
     void direction::update()
     {
-        // direction_fd_ << direction_string.at(direction_);
+        direction_fd_ << direction_string.at(direction_);
+        direction_fd_.flush();
     }
 }
 }

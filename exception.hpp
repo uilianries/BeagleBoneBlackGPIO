@@ -13,7 +13,8 @@ namespace gpio {
 
     public:
         explicit export_error(const std::string& path);
-        const char* what() const throw() override;
+        virtual const char* what() const throw();
+        virtual ~export_error() throw() {}
     };
 
     class direction_error : public std::runtime_error {
@@ -22,7 +23,8 @@ namespace gpio {
 
     public:
         explicit direction_error(const std::string& path);
-        const char* what() const throw() override;
+        const char* what() const throw();
+        virtual ~direction_error() throw() {}
     };
 
     class index_error : public std::range_error {
@@ -31,7 +33,7 @@ namespace gpio {
 
     public:
         explicit index_error(size_t index);
-        const char* what() const throw() override;
+        const char* what() const throw();
     };
 
     class ostream_error : public std::runtime_error {
@@ -40,7 +42,7 @@ namespace gpio {
 
     public:
         explicit ostream_error(size_t index);
-        const char* what() const throw() override;
+        const char* what() const throw();
     };
 
     class istream_error : public std::runtime_error {
@@ -49,7 +51,7 @@ namespace gpio {
 
     public:
         explicit istream_error(size_t index);
-        const char* what() const throw() override;
+        const char* what() const throw();
     };
 }
 }

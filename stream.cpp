@@ -26,7 +26,6 @@ void load_stream(SS& ss, size_t index)
 }
 #endif
 
-
     ostream::ostream(size_t index)
         : core{ index, stream_direction::output }
     {
@@ -39,6 +38,7 @@ void load_stream(SS& ss, size_t index)
     ostream& ostream::operator<<(pin_level level)
     {
         pin_ << static_cast<int>(level);
+        pin_.flush();
         return *this;
     }
 
