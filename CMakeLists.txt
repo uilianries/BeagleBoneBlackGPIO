@@ -13,5 +13,7 @@ set(SOURCE_FILES
 add_library(${CMAKE_PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 
-add_executable(test test_gpio.cpp)
-target_link_libraries(test ${CMAKE_PROJECT_NAME})
+add_executable(test test_gpio.cpp main.cpp)
+target_link_libraries(test ${CMAKE_PROJECT_NAME} gtest gtest_main pthread)
+add_test(test test)
+

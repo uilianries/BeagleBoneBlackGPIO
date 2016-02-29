@@ -18,10 +18,8 @@ namespace gpio {
 
     protected:
         std::string get_value_path(size_t index);
-
     public:
         core(size_t index, stream_direction direct);
-        ~core();
     };
 }
 }
