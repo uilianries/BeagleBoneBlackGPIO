@@ -8,16 +8,15 @@ namespace bbb {
 namespace gpio {
 
     core::core(size_t index, stream_direction direct)
+        : index_{ index }
     {
         if (index > index_max) {
             throw index_error(index);
         }
 
-        std::ostringstream oss;
-        oss << gpio_class_path << "/" << export_file_name;
-        exportation_.reset(new exportation(oss.str(), index));
+        exportation_.reset(new exportation(gpio_class_path, index));
 
-        oss.str("");
+        std::ostringstream oss;
         oss << gpio_class_path << "/" << gpio_dir_prefix << index << "/"
             << direction_file_name;
         direction_.reset(new direction(oss.str(), direct));
@@ -31,6 +30,5 @@ namespace gpio {
             << value_file_name;
         return oss.str();
     }
-
 }
 }
