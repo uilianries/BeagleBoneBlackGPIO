@@ -16,7 +16,7 @@ before_install:
 script:
   - mkdir build
   - cd build
-  - cmake .. && make && ./test_gpio
+  - cmake .. && make && test/test_gpio
 
 branches:
   only:
