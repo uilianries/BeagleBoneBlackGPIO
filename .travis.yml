@@ -2,21 +2,21 @@
 sudo: required
 dist: trusty
 
-language:
-  cpp
+language: 
+  - cpp
 
 compiler:
-  - clang
   - gcc
 
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq cmake libgtest-dev libboost-all-dev
+  - "cd /usr/src/gtest && sudo cmake . && sudo cmake --build . && sudo mv libg* /usr/local/lib/ ; cd -"
 
 script:
   - mkdir build
   - cd build
-  - cmake .. && make
+  - cmake .. && make && ./test_gpio
 
 branches:
   only:
