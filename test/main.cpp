@@ -1,7 +1,4 @@
-#include "gtest/gtest.h"
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE "C++ Unit Tests for BeagleBone Black GPIO"
+#include <boost/test/included/unit_test.hpp>
 
-int main(int argc, char* argv[])
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
