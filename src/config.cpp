@@ -48,6 +48,18 @@ namespace gpio {
 
     std::unique_ptr<config> config::make_config(boost::filesystem::path config_file_path, size_t gpio_pin)
     {
+        if(!boost::filesystem::exists(config_file_path)) {
+          std::ostringstream oss;
+          oss << "Configuration file does not exists: " << config_file_path;
+          throw std::runtime_error(oss.str());
+        }
+
+        if(!boost::filesystem::is_regular_file(config_file_path)) {
+          std::ostringstream oss;
+          oss << "Configuration file must be a valid regular file: " << config_file_path;
+          throw std::runtime_error(oss.str());
+        }
+
         std::string gpio_config_dir = load_gpio_dir_path(config_file_path);
 
         std::unique_ptr<config> gconfig(new config(std::move(gpio_config_dir)));
