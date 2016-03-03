@@ -1,21 +1,32 @@
+/**
+ * \file
+ * \brief Load gpio library configuration
+ *
+ * \author Uilian Ries <uilianries@gmail.com>
+ */
 #include "config.hpp"
 
 #include <utility>
-#include <fstream>
 #include <stdexcept>
 
 #include <boost/program_options.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 namespace bbb {
 namespace gpio {
 
+    /**
+     * \brief Store settings options in a structure
+     * \param store_to receives parsed options from buffer
+     * \return object with settings, as gpio-dir-path
+     */
     template <typename T>
     boost::program_options::typed_value<T>* make_value(T* store_to)
     {
         return boost::program_options::value<T>(store_to);
     }
 
-    static std::string load_gpio_dir_path(const boost::filesystem::path& config_file_path)
+    static boost::filesystem::path load_gpio_dir_path(const boost::filesystem::path& config_file_path)
     {
         using boost::program_options::options_description;
         using boost::program_options::variables_map;
@@ -23,7 +34,7 @@ namespace gpio {
         using boost::program_options::notify;
         using boost::program_options::parse_config_file;
 
-        std::string gpio_dir_path;
+        boost::filesystem::path gpio_dir_path;
         options_description desc("GPIO Options");
         desc.add_options()("gpio-dir-path", make_value(&gpio_dir_path), "System class directory for GPIO");
 
@@ -41,36 +52,32 @@ namespace gpio {
         return gpio_dir_path;
     }
 
-    config::config(boost::filesystem::path gpio_dir_path)
-        : gpio_dir_(std::move(gpio_dir_path))
+    config::config(boost::filesystem::path config_file_path, unsigned gpio_index)
     {
+        if (!boost::filesystem::exists(config_file_path)) {
+            std::ostringstream oss;
+            oss << "Configuration file does not exists: " << config_file_path;
+            throw std::runtime_error(oss.str());
+        }
+
+        if (!boost::filesystem::is_regular_file(config_file_path)) {
+            std::ostringstream oss;
+            oss << "Configuration file must be a valid regular file: " << config_file_path;
+            throw std::runtime_error(oss.str());
+        }
+
+        gpio_dir_ = load_gpio_dir_path(config_file_path);
+        fill_gpio_path(gpio_dir_, gpio_index);
     }
 
-    std::unique_ptr<config> config::make_config(boost::filesystem::path config_file_path, size_t gpio_pin)
+    void config::fill_gpio_path(const boost::filesystem::path gpio_class_dir, unsigned gpio_index) noexcept
     {
-        if(!boost::filesystem::exists(config_file_path)) {
-          std::ostringstream oss;
-          oss << "Configuration file does not exists: " << config_file_path;
-          throw std::runtime_error(oss.str());
-        }
+        const std::string gpio_pin_dir = "gpio" + std::to_string(gpio_index);
 
-        if(!boost::filesystem::is_regular_file(config_file_path)) {
-          std::ostringstream oss;
-          oss << "Configuration file must be a valid regular file: " << config_file_path;
-          throw std::runtime_error(oss.str());
-        }
-
-        std::string gpio_config_dir = load_gpio_dir_path(config_file_path);
-
-        std::unique_ptr<config> gconfig(new config(std::move(gpio_config_dir)));
-        const std::string gpio_pin_dir = "gpio" + std::to_string(gpio_pin);
-
-        gconfig->export_path_ = gconfig->gpio_dir_ / "export";
-        gconfig->unexport_path_ = gconfig->gpio_dir_ / "unexport";
-        gconfig->direction_path_ = gconfig->gpio_dir_ / gpio_pin_dir / "direction";
-        gconfig->value_path_ = gconfig->gpio_dir_ / gpio_pin_dir / "value";
-
-        return gconfig;
+        export_path_ = gpio_class_dir / "export";
+        unexport_path_ = gpio_class_dir / "unexport";
+        direction_path_ = gpio_class_dir / gpio_pin_dir / "direction";
+        value_path_ = gpio_class_dir / gpio_pin_dir / "value";
     }
 
     boost::filesystem::path config::get_export() const noexcept
@@ -92,5 +99,5 @@ namespace gpio {
     {
         return value_path_;
     }
-}
-}
+} // namespace gpio
+} // namespace bbb

@@ -1,3 +1,9 @@
+/**
+ * \file
+ * \brief Give GPIO as stream
+ *
+ * \author Uilian Ries <uilianries@gmail.com>
+ */
 #include "stream.hpp"
 
 namespace bbb {
@@ -5,7 +11,7 @@ namespace gpio {
 
     ostream::ostream(unsigned index)
         : core{ index, stream_direction::output }
-        , ofile_descriptor{ config_->get_value(), pin_level::low }
+        , ofile_descriptor{ config_.get_value(), pin_level::low }
     {
     }
 
@@ -17,7 +23,7 @@ namespace gpio {
 
     istream::istream(unsigned index)
         : core{ index, stream_direction::input }
-        , ifile_descriptor{ config_->get_value() }
+        , ifile_descriptor{ config_.get_value() }
     {
     }
 
@@ -26,5 +32,5 @@ namespace gpio {
         pull(level);
         return *this;
     }
-}
-}
+} // namespace gpio
+} // namespace bbb
