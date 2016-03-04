@@ -13,6 +13,8 @@ before_install:
   - sudo apt-get install -qq cmake libboost-all-dev
 
 script:
+  - scripts/linter.sh
+  - scripts/static-analysis.sh
   - mkdir build
   - cd build
   - cmake .. && make && test/test_gpio
