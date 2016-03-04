@@ -2,7 +2,8 @@
 
 file_sufix=pp
 format_style=Webkit
-formatter=clang-format-3.5
+clang_version=3.6
+formatter=clang-format-${clang_version}
 
 check_clang_format() {
     if hash ${formatter} 2>/dev/null; then

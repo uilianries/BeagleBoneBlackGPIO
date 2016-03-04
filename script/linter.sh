@@ -1,6 +1,7 @@
 #!/bin/bash
 
-linter=clang-tidy-3.5
+clang_version=3.6
+linter=clang-tidy-${clang_version}
 target_dir=src
 
 check_program() {
