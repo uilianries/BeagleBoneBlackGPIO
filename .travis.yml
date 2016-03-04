@@ -10,9 +10,7 @@ compiler:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq cmake libboost-all-dev
-  - sudo apt-get install clang-3.6
-  - sudo apt-get install cppcheck
+  - sudo apt-get install -qq -y cmake libboost-all-dev cppcheck clang-3.6
 
 script:
   - script/linter.sh
