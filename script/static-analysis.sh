@@ -1,7 +1,14 @@
 #!/bin/bash
 
 static_analyser=cppcheck
-target='src/*pp test/*pp'
+target=
+
+if [[ $# -eq 0 ]]; then
+    target='src/*pp test/*pp'
+    echo "Input is empty, using default target: ${target}"
+else
+    target="$@"
+fi
 
 check_analyser() {
     if hash ${static_analyser} 2>/dev/null; then

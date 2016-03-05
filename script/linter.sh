@@ -1,8 +1,15 @@
 #!/bin/bash
 
-clang_version=3.6
-linter=clang-tidy-${clang_version}
-target='src/*pp test/*pp'
+linter=clang-tidy-3.6
+log_file=test/linter.log
+target=
+
+if [[ $# -eq 0 ]]; then
+    target='src/*pp test/*pp'
+    echo "Input is empty, using default target: ${target}"
+else
+    target="$@"
+fi
 
 check_program() {
     if hash ${linter} 2>/dev/null; then
@@ -14,17 +21,16 @@ check_program() {
 }
 
 execute_linter() {
-    ${linter} ${target} -- -Isrc -std=c++11
-    if [ $? -ne 0 ]; then
-        echo "Linter was failed!"
-        exit $?
+    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc 2>&1 | tee /dev/stderr | fgrep "warnings generated"
+    if [ $? -eq 0 ]; then
+        echo "Error: Linter found some warning"
+        exit 1
     fi
 }
 
 main() {
     check_program
     execute_linter
-    exit 0
 }
 
 main
