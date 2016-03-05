@@ -29,7 +29,7 @@ namespace gpio {
          * \brief Open file path and check if is valid
          * \param file_path file path to be opened
          */
-        file_descriptor(const boost::filesystem::path& file_path)
+        explicit file_descriptor(const boost::filesystem::path& file_path)
         {
             fs_.open(file_path.string());
             if (!fs_) {
@@ -79,7 +79,7 @@ namespace gpio {
          * \brief Wrapper to ifstream
          * \param file_path Path to be read
          */
-        ifile_descriptor(const boost::filesystem::path& file_path)
+        explicit ifile_descriptor(const boost::filesystem::path& file_path)
             : file_descriptor(file_path)
         {
         }

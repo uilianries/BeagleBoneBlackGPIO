@@ -1,8 +1,7 @@
 #!/bin/bash
 
 static_analyser=cppcheck
-target_dir=src
-file_pattern=*pp
+target='src/*pp test/*pp'
 
 check_analyser() {
     if hash ${static_analyser} 2>/dev/null; then
@@ -14,7 +13,7 @@ check_analyser() {
 }
 
 execute_checker() {
-    ${static_analyser} ${target_dir}/${file_pattern} --enable=all --inconclusive --std=c++11 --suppress=missingIncludeSystem --language=c++ --check-config
+    ${static_analyser} ${target} --enable=all --inconclusive --std=c++11 --language=c++ --error-exitcode=1
     if [ $? -ne 0 ]; then
         echo "Static analysis was failed!"
         exit $?

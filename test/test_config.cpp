@@ -56,7 +56,7 @@ struct fake_environment {
     /**
      * \brief Create default config file with some data
      */
-    void create_config_file() noexcept(false)
+    static void create_config_file() noexcept(false)
     {
         boost::filesystem::ofstream ofconfig{ bbb::gpio::SETTINGS_FILE_PATH };
         BOOST_CHECK(ofconfig);

@@ -16,7 +16,7 @@ namespace gpio {
      * \brief GPIO logic level
      */
     enum class pin_level { low,
-                           high };
+        high };
 } // namespace gpio
 } // namespace bbb
 

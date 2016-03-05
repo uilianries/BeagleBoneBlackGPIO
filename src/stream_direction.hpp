@@ -16,7 +16,7 @@ namespace gpio {
      * \brief GPIO stream direction
      */
     enum class stream_direction { input,
-                                  output };
+        output };
 
     /**
      * \brief Overload GPIO direction by enum class

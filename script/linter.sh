@@ -2,7 +2,7 @@
 
 clang_version=3.6
 linter=clang-tidy-${clang_version}
-target_dir=src
+target='src/*pp test/*pp'
 
 check_program() {
     if hash ${linter} 2>/dev/null; then
@@ -14,7 +14,7 @@ check_program() {
 }
 
 execute_linter() {
-    ${linter} ${target_dir}/*pp -- -std=c++11
+    ${linter} ${target} -- -Isrc -std=c++11
     if [ $? -ne 0 ]; then
         echo "Linter was failed!"
         exit $?
