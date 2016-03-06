@@ -93,6 +93,7 @@ struct fake_environment {
 };
 } // namespace test_gpio_config
 
+#ifndef __arm__
 /**
  * \brief Produces a tree structure as GPIO class,
  *        and load gpio config. Verify each member, if the
@@ -108,5 +109,35 @@ BOOST_FIXTURE_TEST_CASE(FakeEnvironment, test_gpio_config::fake_environment)
     BOOST_CHECK_EQUAL(test_gpio_config::value_path, gconfig.get_value());
     BOOST_CHECK_EQUAL(test_gpio_config::direction_path, gconfig.get_direction());
 }
+#else
+/**
+ * \brief Execute config test for real environment
+ */
+BOOST_AUTO_TEST_CASE(RealEnvironment)
+{
+    const boost::filesystem::path gpio_class_path("/sys/class/gpio");
+
+    {
+        boost::filesystem::ofstream ofconfig{ bbb::gpio::SETTINGS_FILE_PATH };
+        BOOST_CHECK(ofconfig);
+        ofconfig << "gpio-dir-path=" << gpio_class_path;
+    }
+
+    {
+        boost::filesystem::ofstream ofs(gpio_class_path / "export");
+        BOOST_CHECK(ofs);
+        ofs << test_gpio_config::gpio_pin;
+    }
+
+    auto gconfig = bbb::gpio::config{ bbb::gpio::SETTINGS_FILE_PATH, test_gpio_config::gpio_pin };
+
+    boost::filesystem::path gpio_pin_dir = gpio_class_path / test_gpio_config::pin;
+
+    BOOST_CHECK_EQUAL(gpio_class_path / "export", gconfig.get_export());
+    BOOST_CHECK_EQUAL(gpio_class_path / "unexport", gconfig.get_unexport());
+    BOOST_CHECK_EQUAL(gpio_pin_dir / "value", gconfig.get_value());
+    BOOST_CHECK_EQUAL(gpio_pin_dir / "direction", gconfig.get_direction());
+}
+#endif // #ifndef __arm__
 
 BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ConfigGPIO)
