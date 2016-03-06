@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#
+# \brief pre-commit checker.
+#        Execute format, before to commit;
+#        For each cached file (changed), 
+#        linter and static analysis will be 
+#        executed.
+#        If some test fail, then the commit
+#        will be rejected.
+#
+#        Uilian Ries <uilianries@gmail.com>
+#
+
+if git rev-parse --verify HEAD >/dev/null 2>&1
+then
+	against=HEAD
+else
+	# Initial commit: diff against an empty tree object
+	against=b75e00eb44f6844cebb2bf9c26c5b7cb741ddb42
+fi
+
+# We should not pass non-C/C++ files to cppcheck. Filter filenames with pattern.
+pattern='\.(c|cpp|cc|cxx|h|hpp)$'
+changed_files=$(git diff-index --cached --name-only $against | grep -E $pattern)
+
+script/format.sh
+
+if [ -n "$changed_files" ]; then
+    script/linter.sh $changed_files
+    if [ $? -ne 0 ]; then
+        echo "Could commit: Rejected by linter"
+	exit 1
+    fi
+    script/static-analysis.sh $changed_files
+    if [ $? -ne 0 ]; then
+        echo "Could commit: Rejected by static analysis"
+        exit 1
+    fi
+fi
+
+exit 0

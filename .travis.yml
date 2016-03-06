@@ -1,0 +1,23 @@
+# Become Ubuntu 14.04 Trusty 
+sudo: required
+dist: trusty
+
+language: 
+  - cpp
+
+compiler:
+  - gcc
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq -y cmake libboost-all-dev cppcheck clang-3.6 valgrind
+
+script:
+  - script/linter.sh
+  - script/static-analysis.sh
+  - script/build.sh
+  - script/valgrind.sh build/test/test_gpio
+
+branches:
+  only:
+    - develop
