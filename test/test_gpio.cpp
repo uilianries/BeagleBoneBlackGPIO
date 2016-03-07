@@ -74,6 +74,10 @@ BOOST_AUTO_TEST_CASE(ReadGPIO)
     igpio >> lvl;
 
     BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
+
+    // TODO - provide some test with event
+    igpio.delegate_event([](bbb::gpio::pin_level) {});
+
 #else /**> On x86, do nothing */
     BOOST_CHECK(true);
 #endif // ifdef __arm__

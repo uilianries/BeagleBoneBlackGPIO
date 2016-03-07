@@ -10,7 +10,7 @@ compiler:
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq -y cmake libboost-all-dev cppcheck clang-3.6 valgrind doxygen
+  - sudo apt-get install -qq -y cmake libboost-all-dev cppcheck clang-3.6 valgrind doxygen libpoco-dev
 
 script:
   - script/linter.sh
