@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE(ActiveGPIO)
  */
 BOOST_AUTO_TEST_CASE(WriteGPIO)
 {
-#ifdef __arm__
+#ifdef __arm__ /**> Run on BBB */
     constexpr unsigned pin = 66;
 
     bbb::gpio::ostream ogpio{ pin };
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(WriteGPIO)
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
     ogpio << bbb::gpio::pin_level::low;
-#else
+#else /**> On x86, do nothing */
     BOOST_CHECK(true);
 #endif // ifdef __arm__
 }
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(WriteGPIO)
  */
 BOOST_AUTO_TEST_CASE(ReadGPIO)
 {
-#ifdef __arm__
+#ifdef __arm__ /**> Run on BBB */
     constexpr unsigned ipin = 67;
     constexpr unsigned opin = 68;
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(ReadGPIO)
     igpio >> lvl;
 
     BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
-#else
+#else /**> On x86, do nothing */
     BOOST_CHECK(true);
 #endif // ifdef __arm__
 }
