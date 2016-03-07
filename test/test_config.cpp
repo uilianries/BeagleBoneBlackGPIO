@@ -93,7 +93,7 @@ struct fake_environment {
 };
 } // namespace test_gpio_config
 
-#ifndef __arm__
+#ifndef __arm__ /**> On x86 create virtual environment */
 /**
  * \brief Produces a tree structure as GPIO class,
  *        and load gpio config. Verify each member, if the
@@ -109,7 +109,7 @@ BOOST_FIXTURE_TEST_CASE(FakeEnvironment, test_gpio_config::fake_environment)
     BOOST_CHECK_EQUAL(test_gpio_config::value_path, gconfig.get_value());
     BOOST_CHECK_EQUAL(test_gpio_config::direction_path, gconfig.get_direction());
 }
-#else
+#else /**> On BBB, run real environment */
 /**
  * \brief Execute config test for real environment
  */
