@@ -95,7 +95,7 @@ namespace gpio {
          */
         void pull(T& t)
         {
-            fs_.fseekg(0, fs_.beg);
+            fs_.seekg(0, fs_.beg);
             if (!fs_) {
                 throw std::runtime_error("Could not read file");
             }

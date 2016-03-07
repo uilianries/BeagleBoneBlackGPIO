@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(WriteGPIO)
     ogpio << bbb::gpio::pin_level::low;
 #else
     BOOST_CHECK(true);
-#endif
+#endif // ifdef __arm__
 }
 
 /**
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(ReadGPIO)
     BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
 #else
     BOOST_CHECK(true);
-#endif
+#endif // ifdef __arm__
 }
 
 BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ActiveGPIO)
