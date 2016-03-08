@@ -18,69 +18,87 @@
 #include <boost/test/unit_test.hpp>
 
 #include "stream.hpp"
+#include "arch.hpp"
 
-/**
+namespace bbb {
+namespace test {
+
+    /**
  * \brief Test stream gpio class.
  */
-BOOST_AUTO_TEST_SUITE(ActiveGPIO)
+    BOOST_AUTO_TEST_SUITE(ActiveGPIO)
 
-/**
+    /**
  * \brief Open GPIO 66 as output and toggle the state.
  *        May use a led, to watch the hardware.
  */
-BOOST_AUTO_TEST_CASE(WriteGPIO)
-{
-#ifdef __arm__ /**> Run on BBB */
-    constexpr unsigned pin = 66;
+    BOOST_AUTO_TEST_CASE(WriteGPIO)
+    {
+        if (!IS_BBB_ARCH) {
+            return;
+        }
 
-    bbb::gpio::ostream ogpio{ pin };
+        constexpr unsigned pin = 66;
 
-    ogpio << bbb::gpio::pin_level::high;
+        bbb::gpio::ostream ogpio{ pin };
 
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+        ogpio << bbb::gpio::pin_level::high;
 
-    ogpio << bbb::gpio::pin_level::low;
-#else /**> On x86, do nothing */
-    BOOST_CHECK(true);
-#endif // ifdef __arm__
-}
+        std::this_thread::sleep_for(std::chrono::seconds(1));
 
-/**
+        ogpio << bbb::gpio::pin_level::low;
+    }
+
+    /**
  * \brief Open GPIO 67 as input and toggle the state.
  */
-BOOST_AUTO_TEST_CASE(ReadGPIO)
-{
-#ifdef __arm__ /**> Run on BBB */
-    constexpr unsigned ipin = 67;
-    constexpr unsigned opin = 68;
+    BOOST_AUTO_TEST_CASE(ReadGPIO)
+    {
+        if (!IS_BBB_ARCH) {
+            return;
+        }
 
-    bbb::gpio::ostream ogpio{ opin };
+        constexpr unsigned ipin = 67;
+        constexpr unsigned opin = 68;
 
-    ogpio << bbb::gpio::pin_level::low;
+        bbb::gpio::ostream ogpio{ opin };
 
-    bbb::gpio::istream igpio{ ipin };
-    bbb::gpio::pin_level lvl;
+        ogpio << bbb::gpio::pin_level::low;
 
-    igpio >> lvl;
+        bbb::gpio::istream igpio{ ipin };
+        bbb::gpio::pin_level lvl;
 
-    BOOST_CHECK_EQUAL(test_gpio_config::export_path, gconfig.get_export());
+        igpio >> lvl;
 
-    ogpio << bbb::gpio::pin_level::high;
-    igpio >> lvl;
+        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
 
-    BOOST_CHECK_EQUAL(bbb::gpio::pin_level::high, lvl);
+        auto event_low_counter = 0;
+        auto event_high_counter = 0;
 
-    ogpio << bbb::gpio::pin_level::low;
-    igpio >> lvl;
+        igpio.delegate_event(
+            [&event_low_counter, &event_high_counter](bbb::gpio::pin_level gpio_lvl) {
+            if (gpio_lvl == bbb::gpio::pin_level::high) {
+                event_high_counter++;
+            } else {
+                event_low_counter++;
+            }
+            });
 
-    BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
+        ogpio << bbb::gpio::pin_level::high;
+        igpio >> lvl;
 
-    // TODO - provide some test with event
-    igpio.delegate_event([](bbb::gpio::pin_level) {});
+        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::high, lvl);
 
-#else /**> On x86, do nothing */
-    BOOST_CHECK(true);
-#endif // ifdef __arm__
-}
+        ogpio << bbb::gpio::pin_level::low;
+        igpio >> lvl;
 
-BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ActiveGPIO)
+        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
+
+        BOOST_CHECK_EQUAL(2, event_low_counter);
+        BOOST_CHECK_EQUAL(1, event_high_counter);
+    }
+
+    BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ActiveGPIO)
+
+} // namespace test
+} // namespace bbb

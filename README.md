@@ -11,7 +11,7 @@ Show what the library does as concisely as possible, developers should be able t
 
 ```cpp
 #include <thread>
-#include<chrono>
+#include <chrono>
 #include "stream.hpp"
 
 int main()

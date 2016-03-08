@@ -1,6 +1,6 @@
 #!/bin/bash
 
-log_file=doxygen.log
+log_file=doc/doxygen.log
 
 check_program() {
     if hash doxygen 2>/dev/null; then
@@ -12,7 +12,7 @@ check_program() {
 }
 
 execute_doxygen() {
-    doxygen &> ${log_file} 
+    doxygen doc/Doxyfile &> ${log_file} 
     fgrep 'warning:' ${log_file}
     if [ $? -eq 0 ]; then
         echo "Error $? : Doxygen reported some warning"
