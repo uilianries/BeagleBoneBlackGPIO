@@ -12,7 +12,8 @@ Show what the library does as concisely as possible, developers should be able t
 ```cpp
 #include <thread>
 #include <chrono>
-#include "stream.hpp"
+
+#include "bbbgpio/stream.hpp"
 
 int main()
 {
