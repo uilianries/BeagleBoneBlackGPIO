@@ -9,6 +9,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <stdexcept>
 #include <boost/filesystem.hpp>
 
 #include "stream_operation.hpp"
@@ -64,6 +65,9 @@ namespace gpio {
          */
         void push(T t)
         {
+            if (!fs_) {
+                throw std::runtime_error("Could not write in file");
+            }
             fs_ << t;
             fs_.flush();
         }
@@ -91,7 +95,11 @@ namespace gpio {
          */
         void pull(T& t)
         {
-            fs_.sync();
+            fs_.seekg(0, fs_.beg);
+            if (!fs_) {
+                throw std::runtime_error("Could not read file");
+            }
+
             fs_ >> t;
         }
     };

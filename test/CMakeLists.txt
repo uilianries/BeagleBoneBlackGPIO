@@ -6,6 +6,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable(${GPIO_TEST_APP}
     test_config.cpp 
+    test_gpio.cpp 
     main.cpp)
 
 target_link_libraries(${GPIO_TEST_APP} ${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})

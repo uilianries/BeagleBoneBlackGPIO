@@ -11,7 +11,7 @@ Show what the library does as concisely as possible, developers should be able t
 
 ```cpp
 #include <thread>
-#include<chrono>
+#include <chrono>
 #include "stream.hpp"
 
 int main()
@@ -27,7 +27,7 @@ int main()
 
     igpio >> gpio_lvl;  // Read current level on GPIO 67
 
-    // bbb::gpio use RAII 
+    // bbb::gpio uses RAII 
 
     return 0;
 }

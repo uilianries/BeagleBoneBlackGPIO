@@ -7,6 +7,8 @@
 #ifndef BBB_GPIO_STREAM_HPP_
 #define BBB_GPIO_STREAM_HPP_
 
+#include <Poco/DirectoryWatcher.h>
+
 #include "file_descriptor.hpp"
 #include "core.hpp"
 #include "pin_level.hpp"
@@ -49,6 +51,11 @@ namespace gpio {
     class istream : public core, public ifile_descriptor<pin_level> {
     public:
         /**
+         * \brief Value modification event
+         */
+        using on_event = std::function<void(pin_level)>;
+
+        /**
          * \brief Open GPIO index as stream input
          * \param index GPIO pin index to be opened
          */
@@ -70,6 +77,27 @@ namespace gpio {
          * \return GPIO input stream
          */
         istream& operator>>(pin_level& level);
+
+        /**
+         * \brief Register callback for value modification on GPIO.
+         *        Only a delegate can be used, with set twice, 
+         *        the first will be override.
+         *        To cancel the event treatement, set event to nullptr.
+         * \param event delegated function to treat event
+         */
+        void delegate_event(on_event event) noexcept;
+
+    private:
+        /**
+         * \brief Receive event from Poco. The event means that one file was
+         *        changed.
+         * \param p_sender handler that sent the event
+         * \param event object with file path and event id
+         */
+        void on_directory_change(const void* p_sender, const Poco::DirectoryWatcher::DirectoryEvent& event);
+
+        on_event on_event_; /**> Value event callback */
+        Poco::DirectoryWatcher dir_watcher_; /**> Observes GPIO directory */
     };
 } // namespace gpio
 } // namespace bbb

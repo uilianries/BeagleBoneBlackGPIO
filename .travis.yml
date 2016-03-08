@@ -1,18 +1,20 @@
 # Become Ubuntu 14.04 Trusty 
-sudo: required
 dist: trusty
 
-language: 
-  - cpp
+language: cpp
 
 compiler:
   - gcc
 
+os:
+  - linux
+
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq -y cmake libboost-all-dev cppcheck clang-3.6 valgrind
+  - sudo apt-get install -y -qq cmake libboost-all-dev cppcheck clang-3.6 clang-format-3.6 valgrind doxygen curl
+  - curl -s https://packagecloud.io/install/repositories/uilianries/poco/script.deb.sh | sudo bash && sudo apt-get install libpoco-1.7=1.7-1
 
 script:
+  - script/doxygen.sh
   - script/linter.sh
   - script/static-analysis.sh
   - script/build.sh
