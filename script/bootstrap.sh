@@ -1,8 +1,16 @@
 #!/bin/bash
 
-if [ $1 == '-h' ] || [ $1 == '--help' ]; then
-    echo "Verify BeagleBoneBlackGPIO project dependencies"
-    exit 0
+if [ $# -eq 1 ]; then
+    case $1 in
+        -h|--help)
+        echo "Verify BeagleBoneBlackGPIO project dependencies"
+        exit 0
+        ;;
+        *)
+        echo "ERROR: Unknown argument"
+        exit 1
+        ;;
+    esac
 fi
 
 apt_packages=(doxygen valgrind cppcheck g++ cmake git clang-3.6 clang-format-3.6)
