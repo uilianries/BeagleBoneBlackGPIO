@@ -27,7 +27,7 @@ int main()
 
     igpio >> gpio_lvl;  // Read current level on GPIO 67
 
-    // bbb::gpio use RAII 
+    // bbb::gpio uses RAII 
 
     return 0;
 }
