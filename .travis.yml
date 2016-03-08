@@ -13,6 +13,7 @@ addons:
             - clang-format-3.6
             - valgrind
             - doxygen
+            - curl
 
 compiler:
   - gcc
@@ -21,7 +22,7 @@ os:
   - linux
 
 before_install:
-  - "wget https://packagecloud.io/uilianries/poco/packages/ubuntu/trusty/libpoco-1.7_1.7-1_amd64.deb && sudo dpkg -i libpoco-1.7_1.7-1_amd64.deb"
+  - "curl -s https://packagecloud.io/install/repositories/uilianries/poco/script.deb.sh | sudo bash && sudo apt-get install libpoco-1.7=1.7-1"
 
 script:
   - script/linter.sh
