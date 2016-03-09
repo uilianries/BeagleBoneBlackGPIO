@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 2.8)
+
+set (SAMPLE_READ_GPIO read_gpio)
+set (SAMPLE_CONFIG_FILE bbbgpio.conf)
+
+include_directories(${CMAKE_INSTALL_PREFIX}/include)
+
+add_executable(${SAMPLE_READ_GPIO} ${SAMPLE_READ_GPIO}.cpp)
+
+target_link_libraries(${SAMPLE_READ_GPIO} ${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})
+
+file(COPY ${CMAKE_SOURCE_DIR}/sample/${SAMPLE_CONFIG_FILE} 
+    DESTINATION ${CMAKE_BINARY_DIR}/sample)
+
+install(TARGETS ${SAMPLE_READ_GPIO}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME})
+
+install(FILES ${SAMPLE_CONFIG_FILE}
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME})
+
