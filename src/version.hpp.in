@@ -1,0 +1,3 @@
+// the configured options and settings for BeagleBoneBlackGPIO
+#define BBBGPIO_VERSION_MAJOR @bbbgpio_VERSION_MAJOR@
+#define BBBGPIO_VERSION_MINOR @bbbgpio_VERSION_MINOR@
