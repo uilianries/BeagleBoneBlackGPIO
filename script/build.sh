@@ -47,7 +47,7 @@ execute_build() {
         exit 1
     fi
     if [ ${install} -eq 1 ]; then
-        make install
+        sudo make install
         if [ $? -ne 0 ]; then
             echo "ERROR: Could not install project"
             exit 1
