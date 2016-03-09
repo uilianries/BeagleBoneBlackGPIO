@@ -27,21 +27,22 @@ changed_files=$(git diff-index --cached --name-only $against | grep -E $pattern)
 script/format.sh
 script/doxygen.sh
 if [ $? -ne 0 ]; then
-    echo "Could not commit: Rejected by Doxygen"
+    echo "ERROR: Could not commit: Rejected by Doxygen"
     exit 1
 fi
 
 if [ -n "$changed_files" ]; then
     script/linter.sh $changed_files
     if [ $? -ne 0 ]; then
-        echo "Could commit: Rejected by linter"
+        echo "ERROR: Could commit: Rejected by linter"
 	    exit 1
     fi
     script/static-analysis.sh $changed_files
     if [ $? -ne 0 ]; then
-        echo "Could commit: Rejected by static analysis"
+        echo "ERROR: Could commit: Rejected by static analysis"
         exit 1
     fi
 fi
 
+echo "INFO: pre-commit script - SUCCESS"
 exit 0

@@ -27,7 +27,7 @@ namespace test {
 
     namespace test_gpio_config {
 
-        static const boost::filesystem::path fake_class_dir("fake_gpio_dir");
+        static const boost::filesystem::path fake_class_dir("/tmp/fake_gpio_dir");
         static constexpr auto gpio_pin = 66;
         static const std::string pin = "gpio" + std::to_string(gpio_pin);
         static const boost::filesystem::path fake_gpio_dir = fake_class_dir / pin;
@@ -63,7 +63,7 @@ namespace test {
             {
                 boost::filesystem::ofstream ofconfig{ bbb::gpio::SETTINGS_FILE_PATH };
                 BOOST_CHECK(ofconfig);
-                ofconfig << "gpio-dir-path=fake_gpio_dir";
+                ofconfig << "gpio-dir-path=/tmp/fake_gpio_dir";
             }
 
             /**

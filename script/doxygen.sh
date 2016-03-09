@@ -1,21 +1,22 @@
 #!/bin/bash
 
-log_file=doc/doxygen.log
+log_file=script/doxygen.log
 
 check_program() {
     if hash doxygen 2>/dev/null; then
-        echo "Generate documentation by Doxygen"
+        echo "INFO: Generate documentation by Doxygen"
     else
-        echo "Could not find doxygen. Please, check if is installed"
+        echo "ERROR: Could not find doxygen. Please, check if is installed"
         exit 1
     fi
 }
 
 execute_doxygen() {
     doxygen doc/Doxyfile &> ${log_file} 
+    cat ${log_file}
     fgrep 'warning:' ${log_file}
     if [ $? -eq 0 ]; then
-        echo "Error $? : Doxygen reported some warning"
+        echo "ERROR: Doxygen reported some warning"
         exit 1
     fi
 }

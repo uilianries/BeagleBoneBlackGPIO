@@ -1,29 +1,31 @@
 #!/bin/bash
 
 linter=clang-tidy-3.6
-log_file=test/linter.log
-target=
+log_file=script/linter.log
+target='src/*pp test/*pp'
 
 if [[ $# -eq 0 ]]; then
-    target='src/*pp test/*pp'
-    echo "Input is empty, using default target: ${target}"
+    echo "WARNING: Input is empty, using default target: ${target}"
 else
-    target="$@"
+    eval target="$@"
 fi
 
 check_program() {
     if hash ${linter} 2>/dev/null; then
-        echo "Check programmer errors (Linter)"
+        echo "INFO: Check programmer errors (Linter)"
     else
-        echo "Could not find ${linter}. Please, check if is installed"
+        echo "ERROR: Could not find ${linter}. Please, check if is installed"
         exit 1
     fi
 }
 
 execute_linter() {
-    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc 2>&1 | tee /dev/stderr | fgrep "warnings generated"
+    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc &> ${log_file}
+
+    cat ${log_file}
+    fgrep "warnings generated" ${log_file}
     if [ $? -eq 0 ]; then
-        echo "Error: Linter found some warning"
+        echo "ERROR: Linter found some warning"
         exit 1
     fi
 }
