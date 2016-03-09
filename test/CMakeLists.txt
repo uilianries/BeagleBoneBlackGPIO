@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(GPIO_TEST_APP test_gpio)
 
-include_directories(${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable(${GPIO_TEST_APP}
     test_config.cpp 
