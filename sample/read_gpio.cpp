@@ -7,7 +7,8 @@
 #include <iostream>
 #include <cstdlib>
 
-#include "bbbgpio/stream.hpp"
+#include "stream.hpp"
+#include "pin_level.hpp"
 #include "pinoption.hpp"
 
 /**
@@ -27,7 +28,7 @@ int main(int argc, char* argv[])
     igpio >> lvl;
 
     std::cout << "Current status for GPIO " << ipin
-              << ": " << (lvl == bbb::gpio::pin_level::high ? "high" : "low") << std::endl;
+              << ": " << (bbb::gpio::any(lvl) ? "high" : "low") << std::endl;
 
     return EXIT_SUCCESS;
 }

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 set (SAMPLE_READ_GPIO read_gpio)
 set (SAMPLE_CONFIG_FILE bbbgpio.conf)
 
-include_directories(${CMAKE_INSTALL_PREFIX}/include)
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 add_executable(${SAMPLE_READ_GPIO} ${SAMPLE_READ_GPIO}.cpp)
 
