@@ -14,7 +14,7 @@ namespace gpio {
 
     core::core(unsigned index, stream_direction direct)
         : index_{ index }
-        , config_{ SETTINGS_FILE_PATH, index }
+        , config_{ index }
     {
         if (index > INDEX_MAX) {
             throw std::runtime_error("Invalid pin index: " + std::to_string(index));
