@@ -18,6 +18,7 @@ find_package(Boost
             program_options
             filesystem
             system
+            thread
             REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIR})

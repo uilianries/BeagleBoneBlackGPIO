@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include <cstdlib>
+#include <thread>
+#include <chrono>
 
 #include "bbbgpio/stream.hpp"
 #include "bbbgpio/pin_level.hpp"
@@ -21,14 +23,15 @@ int main(int argc, char* argv[])
 {
     auto ipin = bbb::sample::parse_gpio(argc, argv);
 
-    bbb::gpio::istream igpio(ipin);
+    bbb::gpio::ostream ogpio(ipin);
 
-    bbb::gpio::pin_level lvl;
+    ogpio << bbb::gpio::pin_level::high;
+    std::cout << "GPIO " << ipin << " is high" << std::endl;
 
-    igpio >> lvl;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    std::cout << "Current status for GPIO " << ipin
-              << ": " << (bbb::gpio::any(lvl) ? "high" : "low") << std::endl;
+    ogpio << bbb::gpio::pin_level::low;
+    std::cout << "GPIO " << ipin << " is low" << std::endl;
 
     return EXIT_SUCCESS;
 }
