@@ -16,12 +16,11 @@ namespace gpio {
 
     void config::fill_gpio_path(const boost::filesystem::path gpio_class_dir, unsigned gpio_index) noexcept
     {
-        const std::string gpio_pin_dir = "gpio" + std::to_string(gpio_index);
-
+        gpio_pin_dir_ = gpio_class_dir / std::string("gpio" + std::to_string(gpio_index));
         export_path_ = gpio_class_dir / "export";
         unexport_path_ = gpio_class_dir / "unexport";
-        direction_path_ = gpio_class_dir / gpio_pin_dir / "direction";
-        value_path_ = gpio_class_dir / gpio_pin_dir / "value";
+        direction_path_ = gpio_pin_dir_ / "direction";
+        value_path_ = gpio_pin_dir_ / "value";
     }
 
     boost::filesystem::path config::get_export() const noexcept
@@ -43,5 +42,11 @@ namespace gpio {
     {
         return value_path_;
     }
+
+    boost::filesystem::path config::get_gpio_dir() const noexcept
+    {
+        return gpio_pin_dir_;
+    }
+
 } // namespace gpio
 } // namespace bbb

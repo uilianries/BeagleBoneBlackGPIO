@@ -26,6 +26,7 @@ namespace gpio {
         boost::filesystem::path unexport_path_; /**< gpio unexport file path */
         boost::filesystem::path direction_path_; /**< gpio direction flow file path */
         boost::filesystem::path value_path_; /**< gpio value level file path */
+        boost::filesystem::path gpio_pin_dir_; /**< gpio directory path */
 
         /**
          * \brief Fill all members path, beased on gpio class dir and gpio index
@@ -69,6 +70,12 @@ namespace gpio {
          * \return gpio value data member
          */
         boost::filesystem::path get_value() const noexcept;
+
+        /**
+         * \brief Get gpio directory path
+         * \return gpio dir data member
+         */
+        boost::filesystem::path get_gpio_dir() const noexcept;
     };
 } // namespace gpio
 } // namespace bbb
