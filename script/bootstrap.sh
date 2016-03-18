@@ -13,7 +13,7 @@ if [ $# -eq 1 ]; then
     esac
 fi
 
-apt_packages=(doxygen valgrind cppcheck g++ cmake git clang-3.6 clang-format-3.6)
+apt_packages=(vim doxygen valgrind cppcheck g++ cmake git clang-3.6 clang-format-3.6)
 libs_dir=(/usr/include /usr/local/include)
 
 check_program() {
@@ -48,7 +48,7 @@ check_boost() {
     if [ $lib_found -eq 0 ];
     then
         echo "WARNING: libboost not found"
-        sudo apt-get install -y -qq libboost-all-dev
+        sudo apt-get install -y -qq libboost1.55-all-dev
         if [ $? -ne 0 ]; then
             echo "ERROR: Could not install libboost"
             exit 1
@@ -90,7 +90,7 @@ check_poco() {
         fi
         echo "INFO: Get a coffee, Poco library build will start now"
         sleep 5
-        make -j4 && make install
+        make -j4 && sudo make install
         if [ $? -ne 0 ]; then
             echo "ERROR: Could not build Poco library"
             exit 1
