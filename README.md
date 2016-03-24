@@ -20,7 +20,10 @@ int main()
     bbb::gpio::ostream ogpio{66};  // Open GPIO 66 as output
 
     ogpio << bbb::gpio::pin_level::high;  // Set GPIO 66 to high level
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    {
+        // Do something
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     ogpio << bbb::gpio::pin_level::low;   // Set GPIO 66 to low level
 
     bbb::gpio::istream igpio{67};  // Open GPIO 67 as input
