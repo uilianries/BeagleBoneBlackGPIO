@@ -45,7 +45,7 @@ namespace gpio {
          *        be released.
          * \param gpio_index index to export for gpio
          */
-        config(unsigned gpio_index);
+        explicit config(unsigned gpio_index);
 
         /**
          * \brief Get gpio export file path

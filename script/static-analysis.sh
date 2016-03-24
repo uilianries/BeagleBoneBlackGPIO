@@ -1,7 +1,7 @@
 #!/bin/bash
 
 static_analyser=cppcheck
-target='src/*pp test/*pp sample/*pp'
+target='src/*pp test/*pp sample/*pp include/bbbgpio/*pp'
 
 if [[ $# -eq 0 ]]; then
     echo "WARNING: Input is empty, using default target: ${target}"
