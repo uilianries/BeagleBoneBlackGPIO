@@ -13,7 +13,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "config.hpp"
+#include "bbbgpio/config.hpp"
 
 namespace bbb {
 namespace test {

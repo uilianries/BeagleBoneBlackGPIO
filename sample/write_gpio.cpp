@@ -5,12 +5,9 @@
  * \author Uilian Ries <uilianries@gmail.com>
  */
 #include <iostream>
-#include <cstdlib>
 #include <thread>
-#include <chrono>
 
 #include "bbbgpio/stream.hpp"
-#include "bbbgpio/pin_level.hpp"
 #include "pinoption.hpp"
 
 /**

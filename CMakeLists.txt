@@ -11,6 +11,7 @@ configure_file(
     "${PROJECT_BINARY_DIR}/src/version.hpp")
 
 include_directories("${PROJECT_BINARY_DIR}")
+include_directories(include)
 
 find_package(Boost
             COMPONENTS

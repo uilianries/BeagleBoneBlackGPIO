@@ -17,7 +17,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "stream.hpp"
+#include "bbbgpio/stream.hpp"
 #include "arch.hpp"
 
 namespace bbb {

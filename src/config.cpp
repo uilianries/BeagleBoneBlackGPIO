@@ -4,7 +4,7 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "config.hpp"
+#include "bbbgpio/config.hpp"
 
 namespace bbb {
 namespace gpio {

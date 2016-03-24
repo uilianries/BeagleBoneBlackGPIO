@@ -4,7 +4,7 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "core.hpp"
+#include "bbbgpio/core.hpp"
 
 #include <utility>
 #include <string>

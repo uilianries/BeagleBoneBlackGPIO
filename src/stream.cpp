@@ -4,7 +4,7 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "stream.hpp"
+#include "bbbgpio/stream.hpp"
 
 #include <tuple>
 
