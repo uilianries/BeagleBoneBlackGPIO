@@ -13,13 +13,11 @@
 namespace bbb {
 namespace gpio {
 
-    /** Default name for settings file */
-    static const boost::filesystem::path SETTINGS_FILE_PATH = "bbbgpio.conf";
+    /** Default path for GPIO class dir */
+    static const boost::filesystem::path GPIO_CLASS_DIR_PATH = "/sys/class/gpio";
 
     /**
-     * \brief Load settings from config file, parse data to internal
-     *        path, as gpio-path-dir (aka /sys/class/gpio). After parse
-     *        data, load each file address to a single path.
+     * Load each file address to a single path.
      */
     class config {
     private:
@@ -28,6 +26,7 @@ namespace gpio {
         boost::filesystem::path unexport_path_; /**< gpio unexport file path */
         boost::filesystem::path direction_path_; /**< gpio direction flow file path */
         boost::filesystem::path value_path_; /**< gpio value level file path */
+        boost::filesystem::path gpio_pin_dir_; /**< gpio directory path */
 
         /**
          * \brief Fill all members path, beased on gpio class dir and gpio index
@@ -44,10 +43,9 @@ namespace gpio {
          *        give a pesudo path to gpio core.
          *        The settings file must exists, otherwise, a exception will
          *        be released.
-         * \param config_file_path gpio settings file
          * \param gpio_index index to export for gpio
          */
-        config(boost::filesystem::path config_file_path, unsigned gpio_index);
+        explicit config(unsigned gpio_index);
 
         /**
          * \brief Get gpio export file path
@@ -72,6 +70,12 @@ namespace gpio {
          * \return gpio value data member
          */
         boost::filesystem::path get_value() const noexcept;
+
+        /**
+         * \brief Get gpio directory path
+         * \return gpio dir data member
+         */
+        boost::filesystem::path get_gpio_dir() const noexcept;
     };
 } // namespace gpio
 } // namespace bbb

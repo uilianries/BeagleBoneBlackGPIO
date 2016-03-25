@@ -1,20 +1,19 @@
 #!/bin/bash
 
 static_analyser=cppcheck
-target=
+target='src/*pp test/*pp sample/*pp include/bbbgpio/*pp'
 
 if [[ $# -eq 0 ]]; then
-    target='src/*pp test/*pp'
-    echo "Input is empty, using default target: ${target}"
+    echo "WARNING: Input is empty, using default target: ${target}"
 else
-    target="$@"
+    eval target="$@"
 fi
 
 check_analyser() {
     if hash ${static_analyser} 2>/dev/null; then
-        echo "Static analysis using ${static_analyser}"
+        echo "INFO: Static analysis using ${static_analyser}"
     else
-        "Could not find ${static_analyser}. Please, check if is installed."
+        "ERROR: Could not find ${static_analyser}. Please, check if is installed."
         exit 1
     fi
 }
@@ -22,7 +21,7 @@ check_analyser() {
 execute_checker() {
     ${static_analyser} ${target} --enable=all --inconclusive --std=c++11 --language=c++ --error-exitcode=1
     if [ $? -ne 0 ]; then
-        echo "Static analysis was failed!"
+        echo "ERROR: Static analysis was failed!"
         exit $?
     fi
 }

@@ -11,11 +11,11 @@
 namespace bbb {
 namespace test {
 
+#ifndef __arm__
     /** Using BeagleBone Black Board */
     static constexpr auto IS_BBB_ARCH = false;
-
-#ifdef __arm__
-    IS_BBB_ARCH = true;
+#else
+    static constexpr auto IS_BBB_ARCH = true;
 #endif // ifdef __arm__
 
 } // namespace test

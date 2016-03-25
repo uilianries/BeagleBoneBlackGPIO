@@ -17,7 +17,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "stream.hpp"
+#include "bbbgpio/stream.hpp"
 #include "arch.hpp"
 
 namespace bbb {
@@ -34,6 +34,10 @@ namespace test {
  */
     BOOST_AUTO_TEST_CASE(WriteGPIO)
     {
+
+        BOOST_CHECK(bbb::gpio::any(bbb::gpio::pin_level::high));
+        BOOST_CHECK(!bbb::gpio::any(bbb::gpio::pin_level::low));
+
         if (!IS_BBB_ARCH) {
             return;
         }

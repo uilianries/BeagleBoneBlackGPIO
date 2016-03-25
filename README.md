@@ -20,7 +20,10 @@ int main()
     bbb::gpio::ostream ogpio{66};  // Open GPIO 66 as output
 
     ogpio << bbb::gpio::pin_level::high;  // Set GPIO 66 to high level
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    {
+        // Do something
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     ogpio << bbb::gpio::pin_level::low;   // Set GPIO 66 to low level
 
     bbb::gpio::istream igpio{67};  // Open GPIO 67 as input
@@ -41,6 +44,9 @@ There are others libraries for GPIO on BBB, however, none of them give access as
 
 ## Installation
 
+1) Run script/bootstrap.sh to solve your dependencies.
+2) Run script/build.sh --install to build and install the project
+
 This project carries some scripts to help these steps, however, you will need some packages:
 
 ### Dependencies
@@ -50,13 +56,17 @@ This project carries some scripts to help these steps, however, you will need so
 - cppcheck      : Static analysis for all cpp/hpp
 - valgrind      : Check for memory leak
 - doxygen       : Check code documentation
+- boost         : Library used in source files
 
 ### Internal Scripts
-- build.sh		: Build the project, libraries and modules
-- valgrind.sh		: Execute Unit Tests and check for memory leak
-- linter.sh		: Check for programmer erros in code
+- bootstrap.sh          : Verify depencies as well, try to solve all
+- build.sh              : Build the project, libraries and modules
+- valgrind.sh		    : Execute Unit Tests and check for memory leak
+- linter.sh		        : Check for programmer erros in code
 - static-analysis.sh	: Scan code with cppcheck
-- pre-commit		: Verify change code, with linter and cppcheck, before to commit
+- doxygen.sh	        : Provide project documentation 
+- format.sh	            : Format all sources files to Webkit style
+- pre-commit		    : Verify change code, with linter and cppcheck, before to commit
 
 The build process is very simple, just run:
 - script/build.sh
