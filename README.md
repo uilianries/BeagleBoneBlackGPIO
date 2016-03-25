@@ -1,4 +1,4 @@
-# BeagleBoneBlackGPIO
+# BeagleBoneBlackGPIO [![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO)
 
 ## Synopsis
 
