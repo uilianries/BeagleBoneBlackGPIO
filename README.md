@@ -1,4 +1,11 @@
-# BeagleBoneBlackGPIO [![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO)
+# BeagleBoneBlackGPIO 
+
+[![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO)
+<a href="https://scan.coverity.com/projects/uilianries-beagleboneblackgpio">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/8446/badge.svg"/>
+</a>
+
 
 ## Synopsis
 
