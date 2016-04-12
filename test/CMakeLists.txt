@@ -4,10 +4,10 @@ set(GPIO_TEST_APP test_gpio)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 
-add_executable(${GPIO_TEST_APP}
-    test_config.cpp 
-    test_gpio.cpp 
-    main.cpp)
+file(GLOB SOURCE_FILES
+        *.cpp)
+
+add_executable(${GPIO_TEST_APP} ${SOURCE_FILES})
 
 target_link_libraries(${GPIO_TEST_APP} ${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})
 
