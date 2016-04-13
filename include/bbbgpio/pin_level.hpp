@@ -15,11 +15,39 @@
 namespace bbb {
 namespace gpio {
 
+    /** Level used for analog read */
+    using analog_level = double;
+
     /**
      * \brief GPIO logic level
      */
     enum class pin_level { low,
         high };
+
+    /**
+     * \brief Prototype zero level
+     */
+    template <typename zero_level_type>
+    struct zero_level {
+    };
+
+    template <>
+    /**
+     * \brief Specialized zero value for analog level
+     */
+    struct zero_level<analog_level> {
+        /** zero level */
+        static constexpr auto value = 0.0;
+    };
+
+    template <>
+    /**
+     * \brief Specialized zero value for pin level
+     */
+    struct zero_level<pin_level> {
+        /** zero level */
+        static constexpr auto value = pin_level::low;
+    };
 
     /**
      * \brief Prototype enum class traits
