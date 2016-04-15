@@ -21,6 +21,7 @@ find_package(Boost
             unit_test_framework
             program_options
             filesystem
+            system
             regex
             signals
             REQUIRED)
