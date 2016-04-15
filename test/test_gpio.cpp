@@ -44,7 +44,7 @@ namespace test {
 
         constexpr unsigned pin = 66;
 
-        bbb::gpio::ostream ogpio{ pin };
+        bbb::gpio::ostream<bbb::gpio::pin_level> ogpio{ pin };
 
         ogpio << bbb::gpio::pin_level::high;
 
@@ -65,11 +65,11 @@ namespace test {
         constexpr unsigned ipin = 67;
         constexpr unsigned opin = 68;
 
-        bbb::gpio::ostream ogpio{ opin };
+        bbb::gpio::ostream<bbb::gpio::pin_level> ogpio{ opin };
 
         ogpio << bbb::gpio::pin_level::low;
 
-        bbb::gpio::istream igpio{ ipin };
+        bbb::gpio::istream<bbb::gpio::pin_level> igpio{ ipin };
         bbb::gpio::pin_level lvl;
 
         igpio >> lvl;

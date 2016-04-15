@@ -20,7 +20,7 @@ check_program() {
 }
 
 execute_linter() {
-    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc -I. &> ${log_file}
+    ${linter} -checks=-*,clang-analyzer-*,-clang-analyzer-alpha* ${target} -- -std=c++11 -Isrc -Iinclude -I. &> ${log_file}
 
     cat ${log_file}
     fgrep "warnings generated" ${log_file}

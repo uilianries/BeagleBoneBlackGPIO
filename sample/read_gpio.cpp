@@ -9,6 +9,7 @@
 
 #include "bbbgpio/stream.hpp"
 #include "bbbgpio/pin_level.hpp"
+#include "bbbgpio/string.hpp"
 #include "pinoption.hpp"
 
 /**
@@ -21,14 +22,14 @@ int main(int argc, char* argv[])
 {
     auto ipin = bbb::sample::parse_gpio(argc, argv);
 
-    bbb::gpio::istream igpio(ipin);
+    bbb::gpio::logic_istream igpio(ipin);
 
     bbb::gpio::pin_level lvl;
 
     igpio >> lvl;
 
     std::cout << "Current status for GPIO " << ipin
-              << ": " << (bbb::gpio::any(lvl) ? "high" : "low") << std::endl;
+              << ": " << bbb::gpio::to_string(lvl) << std::endl;
 
     return EXIT_SUCCESS;
 }
