@@ -9,5 +9,6 @@
 
 #include "bbbgpio/logic_stream.hpp"
 #include "bbbgpio/analog_stream.hpp"
+#include "bbbgpio/thermal_stream.hpp"
 
 #endif // BBB_GPIO_STREAM_HPP_

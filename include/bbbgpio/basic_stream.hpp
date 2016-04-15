@@ -86,7 +86,7 @@ namespace gpio {
            * \brief Register callback for value modification on GPIO.
            *        Only a delegate can be used, with set twice,
            *        the first will be override.
-           *        To cancel the event treatement, set event to nullptr.
+           *        To cancel the event treatment, set event to nullptr.
            * \param event delegated function to treat event
            */
         void delegate_event(on_event event) noexcept;
