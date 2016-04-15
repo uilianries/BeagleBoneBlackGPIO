@@ -9,6 +9,9 @@
 
 #include <string>
 #include <memory>
+#include <thread>
+#include <mutex>
+#include <atomic>
 #include <Poco/DirectoryWatcher.h>
 #include <Poco/Path.h>
 #include <boost/signals2.hpp>
@@ -28,6 +31,11 @@ namespace gpio {
      * \brief Open file descriptor
      */
         thermal_stream();
+
+        /**
+         * \brief Stop the monitor thread
+         */
+        ~thermal_stream();
 
         /**
       * \brief Copy is not allowed
@@ -56,24 +64,31 @@ namespace gpio {
         void delegate_event(on_event event) noexcept;
 
     private:
-        /** Watch directory changes */
-        std::unique_ptr<Poco::DirectoryWatcher> directory_watcher_;
+        /** Monitor temperature */
+        std::unique_ptr<std::thread> monitor_thread_;
+        /** Lock temperature read */
+        std::mutex monitor_mutex_;
+        /** sentinel to stop the thread */
+        std::atomic<bool> monitor_sentinel_;
         /** Notify observers */
         boost::signals2::signal<void(thermal_level_type)> subject_;
         /** Wire file path */
         Poco::Path wire_file_path_;
 
         /**
-     * \brief Treat event from Poco Dir Watcher
-     * \param p_sender own object
-     * \param event file changed
+     * \brief Monitor a file for changes
      */
-        void on_directory_change(const void* p_sender, const Poco::DirectoryWatcher::DirectoryEvent& event);
+        void monitor_temperature_change();
 
         /**
      * \brief Read wire file and parse result
      */
         std::string get_temperature();
+
+        /**
+         * \brief Lock before to read the temperature
+         */
+        std::string safe_get_temperature();
     };
 
 } // namespace gpio

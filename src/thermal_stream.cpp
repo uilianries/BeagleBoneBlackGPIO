@@ -20,8 +20,9 @@ namespace bbb {
 namespace gpio {
 
     thermal_stream::thermal_stream()
+        : monitor_sentinel_(true)
     {
-        const Poco::Path wire_dir("/sys/bus/w1/devices");
+        const Poco::Path wire_dir("/tmp/sys/bus/w1/devices");
 
         Poco::File wire_dir_file(wire_dir.toString());
         if (!wire_dir_file.isDirectory()) {
@@ -37,24 +38,38 @@ namespace gpio {
         }
 
         wire_file_path_ = *(files.begin());
-        Poco::Path wire_full_path(*files.begin());
-        auto dir_to_watch = wire_full_path.parent().toString();
-        directory_watcher_.reset(new Poco::DirectoryWatcher(dir_to_watch));
-        directory_watcher_->itemModified += Poco::delegate(this, &thermal_stream::on_directory_change);
     }
 
-    void thermal_stream::on_directory_change(const void* p_sender, const Poco::DirectoryWatcher::DirectoryEvent& event)
+    thermal_stream::~thermal_stream()
     {
-        std::ignore = p_sender;
-        auto modified_path = event.item.path();
-        auto wire_path = wire_file_path_.toString();
-        if (modified_path == wire_path) {
-            subject_(get_temperature());
+        if (monitor_thread_) {
+            monitor_sentinel_ = false;
+            monitor_thread_->join();
+        }
+    }
+
+    void thermal_stream::monitor_temperature_change()
+    {
+        const auto polling_interval = std::chrono::seconds(1);
+        std::string last_read;
+        std::string current_read;
+
+        while (monitor_sentinel_) {
+            current_read = safe_get_temperature();
+            if (last_read != current_read) {
+                subject_(current_read);
+                last_read = current_read;
+            }
+            std::this_thread::sleep_for(polling_interval);
         }
     }
 
     void thermal_stream::delegate_event(on_event event) noexcept
     {
+        if (subject_.empty()) {
+            monitor_thread_.reset(new std::thread(std::bind(&thermal_stream::monitor_temperature_change, this)));
+        }
+
         subject_.connect(event);
     }
 
@@ -85,9 +100,15 @@ namespace gpio {
         return result;
     }
 
+    std::string thermal_stream::safe_get_temperature()
+    {
+        std::lock_guard<std::mutex> lock(monitor_mutex_);
+        return get_temperature();
+    }
+
     thermal_stream& thermal_stream::operator>>(thermal_level_type& level)
     {
-        level = get_temperature();
+        level = safe_get_temperature();
         return *this;
     }
 
