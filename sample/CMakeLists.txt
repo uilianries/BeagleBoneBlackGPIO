@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(SOURCE_LIST write_gpio read_gpio event_gpio read_analog write_analog)
+set(SOURCE_LIST write_gpio read_gpio event_gpio read_analog write_analog read_temperature read_async_temperature)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 

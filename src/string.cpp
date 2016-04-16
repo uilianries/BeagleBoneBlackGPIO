@@ -40,7 +40,7 @@ namespace gpio {
 
     std::string to_string(analog_level level)
     {
-      return std::to_string(level);
+        return std::to_string(level);
     }
 
 } // namespace gpio
