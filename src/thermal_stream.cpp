@@ -20,7 +20,7 @@ namespace bbb {
 namespace gpio {
 
     thermal_stream::thermal_stream()
-        : monitor_sentinel_(true)
+        : monitor_sentinel_{ true }
     {
         const Poco::Path wire_dir("/sys/bus/w1/devices");
 
@@ -38,6 +38,21 @@ namespace gpio {
         }
 
         wire_file_path_ = *(files.begin());
+    }
+
+    thermal_stream::thermal_stream(const Poco::Path& wire_file_path)
+        : monitor_sentinel_{ true }
+    {
+        Poco::File file(wire_file_path.toString());
+        if (!file.isFile()) {
+            throw std::invalid_argument("Invalid wire path: The path is not  a file");
+        }
+
+        if (!file.canRead()) {
+            throw std::runtime_error("ERROR: Could not read wire file: Permission denied");
+        }
+
+        wire_file_path_ = wire_file_path.toString();
     }
 
     thermal_stream::~thermal_stream()

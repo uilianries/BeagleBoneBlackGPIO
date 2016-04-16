@@ -33,6 +33,12 @@ namespace gpio {
         thermal_stream();
 
         /**
+         * \brief Custom wire path
+         * \param wire_file_path absolute path to device
+         */
+        explicit thermal_stream(const Poco::Path& wire_file_path);
+
+        /**
          * \brief Stop the monitor thread
          */
         ~thermal_stream();
