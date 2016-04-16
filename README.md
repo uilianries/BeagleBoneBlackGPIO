@@ -1,6 +1,6 @@
 # BeagleBoneBlackGPIO 
 
-[![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO) [![codecov.io](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO/coverage.svg?branch=master)](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO?branch=master)[![codecov.io](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO/coverage.svg?branch=master)](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO?branch=master) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO) [![codecov.io](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO/coverage.svg?branch=develop)](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO?branch=develop) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 ## Synopsis
 
