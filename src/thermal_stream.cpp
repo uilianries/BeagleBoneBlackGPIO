@@ -22,7 +22,7 @@ namespace gpio {
     thermal_stream::thermal_stream()
         : monitor_sentinel_(true)
     {
-        const Poco::Path wire_dir("/tmp/sys/bus/w1/devices");
+        const Poco::Path wire_dir("/sys/bus/w1/devices");
 
         Poco::File wire_dir_file(wire_dir.toString());
         if (!wire_dir_file.isDirectory()) {

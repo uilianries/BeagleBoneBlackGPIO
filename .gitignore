@@ -3,3 +3,4 @@ doc/doxygen/*
 doc/doxygen.log
 *.log
 .idea
+cscope.*
