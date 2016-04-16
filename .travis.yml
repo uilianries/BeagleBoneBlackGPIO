@@ -21,6 +21,9 @@ script:
   - script/build.sh --install
   - script/valgrind.sh
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 branches:
   only:
     - develop
