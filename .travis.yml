@@ -1,10 +1,16 @@
 # Become Ubuntu 14.04 Trusty 
+sudo: required
 dist: trusty
 
 language: cpp
 
 compiler:
   - gcc
+    addons:
+      apt:
+        packages:
+          - g++-5
+    env: CXX=g++-5
   - clang
 
 os:
