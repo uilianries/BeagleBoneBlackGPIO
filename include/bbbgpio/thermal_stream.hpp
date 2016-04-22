@@ -16,6 +16,8 @@
 #include <Poco/Path.h>
 #include <boost/signals2.hpp>
 
+#include "bbbgpio/thermal_config.hpp"
+
 namespace bbb {
 namespace gpio {
 
@@ -31,12 +33,6 @@ namespace gpio {
      * \brief Open file descriptor
      */
         thermal_stream();
-
-        /**
-         * \brief Custom wire path
-         * \param wire_file_path absolute path to device
-         */
-        explicit thermal_stream(const Poco::Path& wire_file_path);
 
         /**
          * \brief Stop the monitor thread
@@ -79,7 +75,7 @@ namespace gpio {
         /** Notify observers */
         boost::signals2::signal<void(thermal_level_type)> subject_;
         /** Wire file path */
-        Poco::Path wire_file_path_;
+        thermal_config thermal_config_;
 
         /**
      * \brief Monitor a file for changes

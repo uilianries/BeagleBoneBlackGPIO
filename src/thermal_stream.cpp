@@ -10,7 +10,6 @@
 #include <fstream>
 
 #include <Poco/Delegate.h>
-#include <Poco/Glob.h>
 
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
@@ -22,37 +21,6 @@ namespace gpio {
     thermal_stream::thermal_stream()
         : monitor_sentinel_{ true }
     {
-        const Poco::Path wire_dir("/sys/bus/w1/devices");
-
-        Poco::File wire_dir_file(wire_dir.toString());
-        if (!wire_dir_file.isDirectory()) {
-            throw std::invalid_argument("Could not find wire directory");
-        }
-
-        auto path_pattern = wire_dir.toString() + "/*/w1_slave";
-        std::set<std::string> files;
-
-        Poco::Glob::glob(path_pattern, files);
-        if (files.empty()) {
-            throw std::invalid_argument("Could not find wire file");
-        }
-
-        wire_file_path_ = *(files.begin());
-    }
-
-    thermal_stream::thermal_stream(const Poco::Path& wire_file_path)
-        : monitor_sentinel_{ true }
-    {
-        Poco::File file(wire_file_path.toString());
-        if (!file.isFile()) {
-            throw std::invalid_argument("Invalid wire path: The path is not  a file");
-        }
-
-        if (!file.canRead()) {
-            throw std::runtime_error("ERROR: Could not read wire file: Permission denied");
-        }
-
-        wire_file_path_ = wire_file_path.toString();
     }
 
     thermal_stream::~thermal_stream()
@@ -90,7 +58,7 @@ namespace gpio {
 
     std::string thermal_stream::get_temperature()
     {
-        std::ifstream wire_fs(wire_file_path_.toString());
+        std::ifstream wire_fs(thermal_config_.get_config_file().toString());
         if (!wire_fs) {
             throw std::runtime_error("Could not open wire file to read");
         }
