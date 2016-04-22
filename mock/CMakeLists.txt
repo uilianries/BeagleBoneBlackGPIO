@@ -4,14 +4,18 @@ project("mock_${CMAKE_PROJECT_NAME}" CXX)
 find_library(POCO_FOUNDATION PocoFoundation)
 
 file(GLOB SOURCE_FILES 
-    *.cpp
-    src/basic_stream.cpp
-    src/config.cpp
-    src/core.cpp
-    src/string.cpp
-    src/thermal_stream.cpp)
+    *.cpp)
 
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+set(BBBGPIO_SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+include_directories(${BBBGPIO_SRC_DIR})
+
+add_library(${PROJECT_NAME}
+        ${SOURCE_FILES}
+        ${BBBGPIO_SRC_DIR}/basic_stream.cpp
+        ${BBBGPIO_SRC_DIR}/config.cpp
+        ${BBBGPIO_SRC_DIR}/core.cpp
+        ${BBBGPIO_SRC_DIR}/string.cpp
+        ${BBBGPIO_SRC_DIR}/thermal_stream.cpp)
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${POCO_FOUNDATION} pthread)
 
 install(TARGETS ${PROJECT_NAME}
