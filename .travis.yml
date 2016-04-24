@@ -20,7 +20,7 @@ os:
 
 before_install:
   - sudo apt-get install -y -qq cmake libboost1.55-all-dev cppcheck clang-3.6 clang-format-3.6 valgrind doxygen curl
-  - wget https://github.com/uilianries/3rdParty/blob/master/libpoco_1.7-amd64.deb && sudo dpkg -i libpoco_1.7-amd64.deb
+  - git clone https://github.com/uilianries/3rdParty.git && cd 3rdParty && sudo dpkg -i libpoco_1.7-amd64.deb
 
 install:
   if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
