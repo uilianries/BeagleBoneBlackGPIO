@@ -9,11 +9,11 @@
 
 #include <memory>
 
-#include "direction.hpp"
-#include "exportation.hpp"
-#include "logic_config.hpp"
-#include "pin_level.hpp"
-#include "basic_core.hpp"
+#include "bbbgpio/direction.hpp"
+#include "bbbgpio/exportation.hpp"
+#include "bbbgpio/logic_config.hpp"
+#include "bbbgpio/pin_level.hpp"
+#include "bbbgpio/core.hpp"
 
 namespace bbb {
 namespace gpio {
@@ -23,13 +23,14 @@ namespace gpio {
      *        Allocate gpio file descriptor, by export
      *        some pin and release the state on exit
      */
-    template <>
-    class core<pin_level> {
-    private:
+    class logic_core : core {
         unsigned index_; /**> gpio pin index */
+        /** Index limit for GPIO, based on BBB */
+        static constexpr auto INDEX_MAX = 115U;
 
     protected:
-        config<pin_level> config_; /**> gpio general settings from conf */
+        /** gpio general settings from conf */
+        logic_config config_;
 
     public:
         /**
@@ -37,28 +38,12 @@ namespace gpio {
          * \param index gpio pin index
          * \param direct gpio flow direction
          */
-        core(unsigned index, stream_direction direct)
-            : index_{ index }
-            , config_{ index }
-        {
-            if (index > INDEX_MAX) {
-                throw std::runtime_error("Invalid pin index: " + std::to_string(index));
-            }
-
-            exportation{ config_.get_export(), index };
-            direction{ config_.get_direction(), direct };
-        }
+        logic_core(unsigned index, stream_direction direct);
 
         /**
          * \brief Unexport gpio
          */
-        virtual ~core()
-        {
-            exportation{ config_.get_unexport(), index_ };
-        }
-
-        /** Index limit for GPIO, based on BBB */
-        static constexpr unsigned INDEX_MAX = 115;
+        virtual ~logic_core() override;
     };
 } // namespace gpio
 } // namespace bbb

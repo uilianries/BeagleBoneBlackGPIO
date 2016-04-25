@@ -14,7 +14,6 @@ addons:
     packages:
     - g++-5
 
-
 os:
   - linux
 
@@ -27,6 +26,8 @@ install:
 
 script:
   - script/doxygen.sh
+  - script/static-analysis.sh
+  - script/linter.sh
   - script/build.sh --install
   - script/valgrind.sh
 

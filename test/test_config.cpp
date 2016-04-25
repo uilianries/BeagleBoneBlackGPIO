@@ -36,7 +36,7 @@ namespace test {
         const boost::filesystem::path direction_path = gpio_dir / "direction";
         const boost::filesystem::path value_path = gpio_dir / "value";
 
-        auto gconfig = bbb::gpio::config<bbb::gpio::pin_level>{ gpio_index };
+        auto gconfig = bbb::gpio::logic_config{ gpio_index };
 
         BOOST_CHECK_EQUAL(export_path, gconfig.get_export());
         BOOST_CHECK_EQUAL(unexport_path, gconfig.get_unexport());

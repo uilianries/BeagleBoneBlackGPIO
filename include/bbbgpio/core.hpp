@@ -5,20 +5,21 @@
  * \author Uilian Ries <uilianries@gmail.com>
  */
 
-#ifndef BBBGPIO_BASIC_CORE_HPP
-#define BBBGPIO_BASIC_CORE_HPP
+#ifndef BBBGPIO_CORE_HPP
+#define BBBGPIO_CORE_HPP
 
 namespace bbb {
 namespace gpio {
 
-    template <typename T>
     /**
- * \brief Basic core declaration
- */
+* \brief Basic core declaration
+*/
     class core {
+    public:
+        virtual ~core() = default;
     };
 
 } // namespace gpio
 } // namespace bbb
 
-#endif //BBBGPIO_BASIC_CORE_HPP
+#endif //BBBGPIO_CORE_HPP
