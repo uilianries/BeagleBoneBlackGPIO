@@ -30,5 +30,7 @@ int main(int argc, char* argv[])
     ogpio << bbb::gpio::pin_level::low;
     std::cout << "GPIO " << ipin << " is low" << std::endl;
 
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
     return EXIT_SUCCESS;
 }

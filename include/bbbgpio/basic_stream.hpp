@@ -10,8 +10,9 @@
 #include <Poco/DirectoryWatcher.h>
 
 #include "file_descriptor.hpp"
-#include "core.hpp"
 #include "pin_level.hpp"
+#include "analog_core.hpp"
+#include "logic_core.hpp"
 
 namespace bbb {
 namespace gpio {
@@ -20,7 +21,7 @@ namespace gpio {
     /**
        * \brief Open GPIO pin as output stream
        */
-    class ostream : public core,
+    class ostream : public core<pin_level_type>,
                     public ofile_descriptor<pin_level_type> {
     public:
         /**
@@ -52,7 +53,7 @@ namespace gpio {
     /**
        * \brief Open GPIO pin as input stream
        */
-    class istream : public core, public ifile_descriptor<pin_level_type> {
+    class istream : public core<pin_level_type>, public ifile_descriptor<pin_level_type> {
     public:
         /**
            * \brief Value modification event

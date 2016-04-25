@@ -19,7 +19,7 @@ check_analyser() {
 }
 
 execute_checker() {
-    ${static_analyser} ${target} --enable=all --inconclusive --std=c++11 --language=c++ --error-exitcode=1
+  ${static_analyser} ${target} --verbose --enable=all --inconclusive --std=c++11 --language=c++ --error-exitcode=1
     if [ $? -ne 0 ]; then
         echo "ERROR: Static analysis was failed!"
         exit $?

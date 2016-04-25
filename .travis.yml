@@ -27,8 +27,6 @@ install:
 
 script:
   - script/doxygen.sh
-  - script/linter.sh
-  - script/static-analysis.sh
   - script/build.sh --install
   - script/valgrind.sh
 

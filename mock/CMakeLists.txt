@@ -12,8 +12,6 @@ include_directories(${BBBGPIO_SRC_DIR})
 add_library(${PROJECT_NAME}
         ${SOURCE_FILES}
         ${BBBGPIO_SRC_DIR}/basic_stream.cpp
-        ${BBBGPIO_SRC_DIR}/config.cpp
-        ${BBBGPIO_SRC_DIR}/core.cpp
         ${BBBGPIO_SRC_DIR}/string.cpp
         ${BBBGPIO_SRC_DIR}/thermal_stream.cpp)
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${POCO_FOUNDATION} pthread)

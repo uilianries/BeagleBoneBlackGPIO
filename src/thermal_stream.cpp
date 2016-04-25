@@ -9,8 +9,6 @@
 
 #include <fstream>
 
-#include <Poco/Delegate.h>
-
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -86,7 +84,11 @@ namespace gpio {
     std::string thermal_stream::safe_get_temperature()
     {
         std::lock_guard<std::mutex> lock(monitor_mutex_);
-        return get_temperature();
+        std::string result;
+        while (result.empty()) {
+            result = get_temperature();
+        }
+        return result;
     }
 
     thermal_stream& thermal_stream::operator>>(thermal_level_type& level)

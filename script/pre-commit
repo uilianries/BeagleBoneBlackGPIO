@@ -31,18 +31,5 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-if [ -n "$changed_files" ]; then
-    script/linter.sh $changed_files
-    if [ $? -ne 0 ]; then
-        echo "ERROR: Could commit: Rejected by linter"
-	    exit 1
-    fi
-    script/static-analysis.sh $changed_files
-    if [ $? -ne 0 ]; then
-        echo "ERROR: Could commit: Rejected by static analysis"
-        exit 1
-    fi
-fi
-
 echo "INFO: pre-commit script - SUCCESS"
 exit 0

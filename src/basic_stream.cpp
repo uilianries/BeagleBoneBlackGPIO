@@ -15,8 +15,8 @@ namespace gpio {
 
     template <typename pin_level_type>
     ostream<pin_level_type>::ostream(unsigned index)
-        : core{ index, stream_direction::output }
-        , ofile_descriptor<pin_level_type>{ config_.get_value(), zero_level<pin_level_type>::value }
+        : core<pin_level_type>{ index, stream_direction::output }
+        , ofile_descriptor<pin_level_type>{ core<pin_level_type>::config_.get_value(), zero_level<pin_level_type>::value } /**< Output File Descriptor */
     {
     }
 
@@ -29,14 +29,13 @@ namespace gpio {
 
     template <typename pin_level_type>
     istream<pin_level_type>::istream(unsigned index)
-        : core{ index, stream_direction::input }
+        : core<pin_level_type>{ index, stream_direction::input }
         , /** Treat file descriptor as stream */
-        ifile_descriptor<pin_level_type>{ config_.get_value() }
+        ifile_descriptor<pin_level_type>{ core<pin_level_type>::config_.get_value() }
         , /** Directory watcher */
-        dir_watcher_(config_.get_value().parent_path().string())
+        dir_watcher_(core<pin_level_type>::config_.get_value().parent_path().string())
     {
         dir_watcher_.itemModified += Poco::delegate(this, &istream::on_directory_change);
-        dir_watcher_.suspendEvents();
     }
 
     template <typename pin_level_type>
@@ -63,7 +62,7 @@ namespace gpio {
     {
         std::ignore = p_sender;
         if (on_event_) {
-            if (event.item.path() == config_.get_value()) {
+            if (event.item.path() == core<pin_level_type>::config_.get_value()) {
                 pin_level_type level;
                 ifile_descriptor<pin_level_type>::pull(level);
                 on_event_(level);
