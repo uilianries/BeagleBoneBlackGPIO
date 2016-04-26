@@ -13,7 +13,11 @@ add_library(${PROJECT_NAME}
         ${SOURCE_FILES}
         ${BBBGPIO_SRC_DIR}/basic_stream.cpp
         ${BBBGPIO_SRC_DIR}/string.cpp
-        ${BBBGPIO_SRC_DIR}/thermal_stream.cpp)
+        ${BBBGPIO_SRC_DIR}/thermal_stream.cpp
+        ${BBBGPIO_SRC_DIR}/analog_config.cpp
+        ${BBBGPIO_SRC_DIR}/logic_config.cpp
+        ${BBBGPIO_SRC_DIR}/analog_core.cpp
+        ${BBBGPIO_SRC_DIR}/logic_core.cpp)
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES} ${POCO_FOUNDATION} pthread)
 
 install(TARGETS ${PROJECT_NAME}
