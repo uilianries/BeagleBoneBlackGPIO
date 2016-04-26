@@ -25,6 +25,16 @@ pattern='\.(c|cpp|cc|cxx|h|hpp)$'
 changed_files=$(git diff-index --cached --name-only $against | grep -E $pattern)
 
 script/format.sh
+script/linter.sh
+if [ $? -ne 0 ]; then
+    echo "ERROR: Could not commit: Rejected by Linter"
+    exit 1
+fi
+script/static-analysis.sh
+if [ $? -ne 0 ]; then
+    echo "ERROR: Could not commit: Rejected by Cppcheck"
+    exit 1
+fi
 script/doxygen.sh
 if [ $? -ne 0 ]; then
     echo "ERROR: Could not commit: Rejected by Doxygen"

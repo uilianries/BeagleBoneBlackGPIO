@@ -6,8 +6,6 @@
  */
 #include "bbbgpio/basic_stream.hpp"
 
-#include <tuple>
-
 #include <Poco/Delegate.h>
 
 namespace bbb {
