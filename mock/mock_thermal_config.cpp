@@ -8,20 +8,19 @@
 
 #include <stdexcept>
 
-#include <Poco/TemporaryFile.h>
+#include <Poco/File.h>
 
 namespace bbb {
 namespace gpio {
 
     thermal_config::thermal_config()
     {
-        Poco::TemporaryFile temporary_file;
-        if (!temporary_file.createFile()) {
-            throw std::runtime_error("ERROR: Could not create temporary file");
-        }
-        temporary_file.keep();
+        Poco::File fake_gpio_file("/var/tmp/fake_gpio");
 
-        thermal_config_path_ = temporary_file.path();
+        fake_gpio_file.setExecutable(false);
+        fake_gpio_file.setWriteable(true);
+
+        thermal_config_path_ = fake_gpio_file.path();
     }
 
     const Poco::Path& thermal_config::get_config_file() const noexcept

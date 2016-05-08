@@ -12,6 +12,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <chrono>
 #include <Poco/DirectoryWatcher.h>
 #include <Poco/Path.h>
 #include <boost/signals2.hpp>
@@ -65,6 +66,13 @@ namespace gpio {
      */
         void delegate_event(on_event event) noexcept;
 
+        /**
+         * \brief Update interval for each device read.
+         *        Default time is 1 second
+         * \param time_interval new value to update
+         */
+        void set_polling_interval(std::chrono::seconds&& time_interval) noexcept;
+
     private:
         /** Monitor temperature */
         std::unique_ptr<std::thread> monitor_thread_;
@@ -76,6 +84,8 @@ namespace gpio {
         boost::signals2::signal<void(thermal_level_type)> subject_;
         /** Wire file path */
         thermal_config thermal_config_;
+        /** Time interval */
+        std::chrono::seconds time_interval_;
 
         /**
      * \brief Monitor a file for changes

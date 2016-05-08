@@ -18,6 +18,7 @@ namespace gpio {
 
     thermal_stream::thermal_stream()
         : monitor_sentinel_{ true }
+        , time_interval_{ 1 }
     {
     }
 
@@ -31,7 +32,6 @@ namespace gpio {
 
     void thermal_stream::monitor_temperature_change()
     {
-        const auto polling_interval = std::chrono::seconds(1);
         std::string last_read;
         std::string current_read;
 
@@ -41,8 +41,13 @@ namespace gpio {
                 subject_(current_read);
                 last_read = current_read;
             }
-            std::this_thread::sleep_for(polling_interval);
+            std::this_thread::sleep_for(time_interval_);
         }
+    }
+
+    void thermal_stream::set_polling_interval(std::chrono::seconds&& time_interval) noexcept
+    {
+        time_interval_ = std::move(time_interval);
     }
 
     void thermal_stream::delegate_event(on_event event) noexcept
