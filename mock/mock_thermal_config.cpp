@@ -23,7 +23,7 @@ namespace gpio {
         thermal_config_path_ = fake_gpio_file.path();
     }
 
-    const Poco::Path& thermal_config::get_config_file() const noexcept
+    boost::filesystem::path thermal_config::get_config_file() const noexcept
     {
         return thermal_config_path_;
     }

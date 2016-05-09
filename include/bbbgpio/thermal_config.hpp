@@ -7,7 +7,7 @@
 #ifndef BBBGPIO_THERMAL_CONFIG_HPP
 #define BBBGPIO_THERMAL_CONFIG_HPP
 
-#include <Poco/Path.h>
+#include <boost/filesystem/path.hpp>
 
 namespace bbb {
 namespace gpio {
@@ -26,11 +26,11 @@ namespace gpio {
      * \brief Get config file path
      * \return Config file path
      */
-        const Poco::Path& get_config_file() const noexcept;
+        boost::filesystem::path get_config_file() const noexcept;
 
     private:
         /** Config file path */
-        Poco::Path thermal_config_path_;
+        boost::filesystem::path thermal_config_path_;
     };
 
 } // namespace gpio

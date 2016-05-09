@@ -13,8 +13,7 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
-#include <Poco/DirectoryWatcher.h>
-#include <Poco/Path.h>
+#include <fstream>
 #include <boost/signals2.hpp>
 
 #include "bbbgpio/thermal_config.hpp"
@@ -86,6 +85,8 @@ namespace gpio {
         thermal_config thermal_config_;
         /** Time interval */
         std::chrono::seconds time_interval_;
+        /** File input stream */
+        std::ifstream wire_stream_;
 
         /**
      * \brief Monitor a file for changes
@@ -101,6 +102,16 @@ namespace gpio {
          * \brief Lock before to read the temperature
          */
         std::string safe_get_temperature();
+
+        /**
+         * \brief Rewind wire stream
+         */
+        void rewind();
+
+        /**
+         * \brief Reopen wire stream
+         */
+        void reopen();
     };
 
 } // namespace gpio

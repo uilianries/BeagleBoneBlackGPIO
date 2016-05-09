@@ -7,8 +7,6 @@
 
 #include "bbbgpio/thermal_stream.hpp"
 
-#include <fstream>
-
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>
 #include <iomanip>
@@ -61,17 +59,15 @@ namespace gpio {
 
     std::string thermal_stream::get_temperature()
     {
-        std::ifstream wire_fs(thermal_config_.get_config_file().toString());
-        if (!wire_fs) {
-            throw std::runtime_error("Could not open wire file to read");
-        }
-
         std::string result;
         boost::regex expression("t=\\d{3,6}");
         std::string line;
         boost::smatch what;
 
-        while (std::getline(wire_fs, line)) {
+        reopen();
+        rewind();
+
+        while (std::getline(wire_stream_, line)) {
             if (boost::regex_search(line, what, expression, boost::match_extra)) {
                 result = what.str();
                 boost::erase_all(result, "t=");
@@ -100,6 +96,26 @@ namespace gpio {
     {
         level = safe_get_temperature();
         return *this;
+    }
+
+    void thermal_stream::rewind()
+    {
+        if (wire_stream_.bad()) {
+            reopen();
+        }
+        wire_stream_.clear();
+        wire_stream_.seekg(0, wire_stream_.beg);
+    }
+
+    void thermal_stream::reopen()
+    {
+        if (!wire_stream_.is_open()) {
+            const std::string file_path = thermal_config_.get_config_file().string();
+            wire_stream_.open(file_path);
+            if (!wire_stream_) {
+                throw std::runtime_error("Could not open wire stream");
+            }
+        }
     }
 
 } // namespace gpio
