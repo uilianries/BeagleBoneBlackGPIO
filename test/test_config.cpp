@@ -13,7 +13,8 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "bbbgpio/config.hpp"
+#include "bbbgpio/pin_level.hpp"
+#include "bbbgpio/logic_config.hpp"
 
 namespace bbb {
 namespace test {
@@ -35,7 +36,7 @@ namespace test {
         const boost::filesystem::path direction_path = gpio_dir / "direction";
         const boost::filesystem::path value_path = gpio_dir / "value";
 
-        auto gconfig = bbb::gpio::config{ gpio_index };
+        auto gconfig = bbb::gpio::logic_config{ gpio_index };
 
         BOOST_CHECK_EQUAL(export_path, gconfig.get_export());
         BOOST_CHECK_EQUAL(unexport_path, gconfig.get_unexport());

@@ -13,3 +13,5 @@ target_link_libraries(${GPIO_TEST_APP} ${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})
 
 add_test(${GPIO_TEST_APP} ${GPIO_TEST_APP})
 
+add_subdirectory(mock)
+

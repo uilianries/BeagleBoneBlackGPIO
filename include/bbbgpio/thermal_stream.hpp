@@ -12,9 +12,11 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include <Poco/DirectoryWatcher.h>
-#include <Poco/Path.h>
+#include <chrono>
+#include <fstream>
 #include <boost/signals2.hpp>
+
+#include "bbbgpio/thermal_config.hpp"
 
 namespace bbb {
 namespace gpio {
@@ -31,12 +33,6 @@ namespace gpio {
      * \brief Open file descriptor
      */
         thermal_stream();
-
-        /**
-         * \brief Custom wire path
-         * \param wire_file_path absolute path to device
-         */
-        explicit thermal_stream(const Poco::Path& wire_file_path);
 
         /**
          * \brief Stop the monitor thread
@@ -69,6 +65,13 @@ namespace gpio {
      */
         void delegate_event(on_event event) noexcept;
 
+        /**
+         * \brief Update interval for each device read.
+         *        Default time is 1 second
+         * \param time_interval new value to update
+         */
+        void set_polling_interval(std::chrono::seconds&& time_interval) noexcept;
+
     private:
         /** Monitor temperature */
         std::unique_ptr<std::thread> monitor_thread_;
@@ -79,7 +82,11 @@ namespace gpio {
         /** Notify observers */
         boost::signals2::signal<void(thermal_level_type)> subject_;
         /** Wire file path */
-        Poco::Path wire_file_path_;
+        thermal_config thermal_config_;
+        /** Time interval */
+        std::chrono::seconds time_interval_;
+        /** File input stream */
+        std::ifstream wire_stream_;
 
         /**
      * \brief Monitor a file for changes
@@ -95,6 +102,16 @@ namespace gpio {
          * \brief Lock before to read the temperature
          */
         std::string safe_get_temperature();
+
+        /**
+         * \brief Rewind wire stream
+         */
+        void rewind();
+
+        /**
+         * \brief Reopen wire stream
+         */
+        void reopen();
     };
 
 } // namespace gpio

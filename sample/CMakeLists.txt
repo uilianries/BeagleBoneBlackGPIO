@@ -14,3 +14,9 @@ foreach(SOURCE ${SOURCE_LIST})
             DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME})
 
 endforeach(SOURCE)
+
+add_executable(mock_read_temperature read_temperature.cpp)
+target_link_libraries(mock_read_temperature "mock_${CMAKE_PROJECT_NAME}" ${Boost_LIBRARIES})
+
+install(TARGETS mock_read_temperature
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/${CMAKE_PROJECT_NAME})

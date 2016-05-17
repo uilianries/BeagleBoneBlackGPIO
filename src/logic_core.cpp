@@ -4,15 +4,15 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-#include "bbbgpio/core.hpp"
 
-#include <utility>
-#include <string>
+#include "bbbgpio/logic_core.hpp"
+#include "bbbgpio/exportation.hpp"
+#include "bbbgpio/direction.hpp"
 
 namespace bbb {
 namespace gpio {
 
-    core::core(unsigned index, stream_direction direct)
+    logic_core::logic_core(unsigned index, stream_direction direct)
         : index_{ index }
         , config_{ index }
     {
@@ -24,9 +24,10 @@ namespace gpio {
         direction{ config_.get_direction(), direct };
     }
 
-    core::~core()
+    logic_core::~logic_core()
     {
         exportation{ config_.get_unexport(), index_ };
     }
+
 } // namespace gpio
 } // namespace bbb
