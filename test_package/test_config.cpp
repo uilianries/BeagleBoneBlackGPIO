@@ -4,14 +4,11 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-/** Should not link with unit test lib */
-#define BOOST_TEST_NO_LIB
-
 #include <string>
 
 #include <boost/filesystem.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include <catch.hpp>
 
 #include "bbbgpio/pin_level.hpp"
 #include "bbbgpio/logic_config.hpp"
@@ -19,13 +16,11 @@
 namespace bbb {
 namespace test {
 
-    /**
+/**
  * \brief Test config gpio class.
  *        Create a fake environment for GPIO support on x86
  */
-    BOOST_AUTO_TEST_SUITE(ConfigGPIO)
-
-    BOOST_AUTO_TEST_CASE(PathValidation)
+    TEST_CASE("ConfigGPIO", "[PathValidation]")
     {
         constexpr auto gpio_index = 66;
         const boost::filesystem::path gpio_class_dir = "/sys/class/gpio";
@@ -38,13 +33,12 @@ namespace test {
 
         auto gconfig = bbb::gpio::logic_config{ gpio_index };
 
-        BOOST_CHECK_EQUAL(export_path, gconfig.get_export());
-        BOOST_CHECK_EQUAL(unexport_path, gconfig.get_unexport());
-        BOOST_CHECK_EQUAL(value_path, gconfig.get_value());
-        BOOST_CHECK_EQUAL(direction_path, gconfig.get_direction());
+        REQUIRE(export_path == gconfig.get_export());
+        REQUIRE(unexport_path == gconfig.get_unexport());
+        REQUIRE(value_path == gconfig.get_value());
+        REQUIRE(direction_path == gconfig.get_direction());
     }
 
-    BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ConfigGPIO)
 
 } // namespace test
 } // namespace bbb

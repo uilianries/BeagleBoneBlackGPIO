@@ -1,15 +1,19 @@
 cmake_minimum_required(VERSION 2.8)
 project(bbbgpio CXX)
 
-set(bbbgpio_VERSION_MAJOR 1)
-set(bbbgpio_VERSION_MINOR 0)
+set(bbbgpio_VERSION_MAJOR 0)
+set(bbbgpio_VERSION_MINOR 2)
+set(bbbgpio_VERSION_PATCH 0)
 
-option(TESTS "Generate tests" ON)
-option(SAMPLES "Generate samples" ON)
-option(MOCK "Generate mock library" ON)
+option(SAMPLES "Generate samples" OFF)
 
+# Verbose mode ############################################################
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -coverage -std=c++11 -pedantic -Wall -Wextra -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wsign-promo -Werror -Wno-unused")
+# Conan packages ##########################################################
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 
 configure_file(
     "${PROJECT_SOURCE_DIR}/src/version.hpp.in"
@@ -18,28 +22,8 @@ configure_file(
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories(include)
 
-find_package(Boost
-            COMPONENTS
-            unit_test_framework
-            program_options
-            filesystem
-            system
-            regex
-            signals
-            REQUIRED)
-
-include_directories(${Boost_INCLUDE_DIR})
-
 add_subdirectory(include)
 add_subdirectory(src)
-
-if (MOCK)
-    add_subdirectory(mock)
-endif()
-
-if (TESTS)
-    add_subdirectory(test)
-endif()
 
 if (SAMPLES)
     add_subdirectory(sample)
