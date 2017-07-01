@@ -14,7 +14,7 @@ namespace test {
     /**
      * \brief Convert pin_level and compare to string
     */
-    TEST_CASE("ToString", "[String]")
+    TEST_CASE("ToString", "[string]")
     {
         REQUIRE("high" == bbb::gpio::to_string(bbb::gpio::pin_level::high));
         REQUIRE("low" == bbb::gpio::to_string(bbb::gpio::pin_level::low));
