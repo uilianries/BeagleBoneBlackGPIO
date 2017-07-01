@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 file(GLOB SOURCE_FILES *.cpp)
 
-set(BUILD_FLAGS "-coverage -std=c++11 -pedantic -Wall -Wextra -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wsign-promo -Werror -Wno-unused")
+set(BUILD_FLAGS "-std=c++11 -pedantic -Wall -Wextra -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wsign-promo -Werror -Wno-unused")
 
 add_library(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${CONAN_LIBS})

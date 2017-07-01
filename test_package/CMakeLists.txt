@@ -8,7 +8,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-set(BUILD_FLAGS "-coverage -std=c++11 -pedantic -Wall -Wextra -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wsign-promo -Werror -Wno-unused")
+set(BUILD_FLAGS "-std=c++11 -pedantic -Wall -Wextra -Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wsign-promo -Werror -Wno-unused")
 
 file(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
