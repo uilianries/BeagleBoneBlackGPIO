@@ -28,7 +28,7 @@ namespace test {
  * \brief Open GPIO 66 as output and toggle the state.
  *        May use a led, to watch the hardware.
  */
-    TEST_CASE("ActiveGPIO", "[WriteGPIO]")
+    TEST_CASE("Active and write on GPIO", "[gpio]")
     {
 
         REQUIRE(bbb::gpio::any(bbb::gpio::pin_level::high));
@@ -52,7 +52,7 @@ namespace test {
 /**
  * \brief Open GPIO 67 as input and toggle the state.
  */
-    TEST_CASE("ActiveGPIO", "[ReadGPIO]")
+    TEST_CASE("Active and read on GPIO", "[gpio]")
     {
         if (!IS_BBB_ARCH) {
             return;

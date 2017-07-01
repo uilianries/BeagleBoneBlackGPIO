@@ -20,7 +20,7 @@ namespace test {
  * \brief Test config gpio class.
  *        Create a fake environment for GPIO support on x86
  */
-    TEST_CASE("ConfigGPIO", "[PathValidation]")
+    TEST_CASE("ConfigGPIO", "[path]")
     {
         constexpr auto gpio_index = 66;
         const boost::filesystem::path gpio_class_dir = "/sys/class/gpio";
