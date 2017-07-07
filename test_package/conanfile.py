@@ -6,7 +6,7 @@ class BeagleboneblackgpioTestConan(ConanFile):
     channel = os.getenv("CONAN_CHANNEL", "testing")
     username = os.getenv("CONAN_USERNAME", "uilianries")
     settings = "os", "compiler", "build_type", "arch"
-    requires = "BeagleBoneBlackGPIO/0.2.0@%s/%s" % (username, channel), "Boost/1.60.0@lasote/stable", "Catch/1.9.6@uilianries/stable"
+    requires = "BeagleBoneBlackGPIO/0.2.0@%s/%s" % (username, channel), "Boost/1.62.0@lasote/stable", "Catch/1.9.4@uilianries/stable"
     generators = "cmake"
 
     def build(self):

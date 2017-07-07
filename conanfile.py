@@ -12,7 +12,7 @@ class BeagleboneblackgpioConan(ConanFile):
     options = {"shared": [True, False]}
     generators = "cmake"
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
-    requires = "Poco/1.7.5@lasote/stable", "Boost/1.60.0@lasote/stable"
+    requires = "Poco/1.7.8p3@pocoproject/stable", "Boost/1.62.0@lasote/stable"
     default_options = "shared=True", "Poco:shared=True", "Boost:shared=True"
 
     def build(self):
