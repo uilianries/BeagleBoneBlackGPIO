@@ -1,6 +1,6 @@
-# BeagleBoneBlackGPIO 
+# BeagleBoneBlackGPIO
 
-[![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=develop)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO) [![codecov.io](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO/coverage.svg?branch=develop)](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO?branch=develop) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
+[![Build Status](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO.svg?branch=master)](https://travis-ci.org/uilianries/BeagleBoneBlackGPIO) [![codecov.io](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO/coverage.svg?branch=master)](https://codecov.io/github/uilianries/BeagleBoneBlackGPIO?branch=master) [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 
 ## Synopsis
 
@@ -33,7 +33,7 @@ int main()
 
     igpio >> gpio_lvl;  // Read current level on GPIO 67
 
-    // bbb::gpio uses RAII 
+    // bbb::gpio uses RAII
 
     return 0;
 }
@@ -54,7 +54,7 @@ This project carries some scripts to help these steps, however, you will need so
 ### Dependencies
 - cmake         : Build library and modules
 - clang-format  : Format all cpp/hpp file to Webkit style
-- clang-tidy    : Linter for all cpp/hpp 
+- clang-tidy    : Linter for all cpp/hpp
 - cppcheck      : Static analysis for all cpp/hpp
 - valgrind      : Check for memory leak
 - doxygen       : Check code documentation
@@ -66,7 +66,7 @@ This project carries some scripts to help these steps, however, you will need so
 - valgrind.sh		    : Execute Unit Tests and check for memory leak
 - linter.sh		        : Check for programmer erros in code
 - static-analysis.sh	: Scan code with cppcheck
-- doxygen.sh	        : Provide project documentation 
+- doxygen.sh	        : Provide project documentation
 - format.sh	            : Format all sources files to Webkit style
 - pre-commit		    : Verify change code, with linter and cppcheck, before to commit
 

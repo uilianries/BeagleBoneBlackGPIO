@@ -9,13 +9,10 @@
  *
  * \author Uilian Ries <uilianries@gmail.com>
  */
-/** Should not link with unit test lib */
-#define BOOST_TEST_NO_LIB
-
 #include <thread>
 #include <chrono>
 
-#include <boost/test/unit_test.hpp>
+#include <catch.hpp>
 
 #include "bbbgpio/stream.hpp"
 #include "arch.hpp"
@@ -23,20 +20,19 @@
 namespace bbb {
 namespace test {
 
-    /**
+/**
  * \brief Test stream gpio class.
  */
-    BOOST_AUTO_TEST_SUITE(ActiveGPIO)
 
-    /**
+/**
  * \brief Open GPIO 66 as output and toggle the state.
  *        May use a led, to watch the hardware.
  */
-    BOOST_AUTO_TEST_CASE(WriteGPIO)
+    TEST_CASE("Active and write on GPIO", "[gpio]")
     {
 
-        BOOST_CHECK(bbb::gpio::any(bbb::gpio::pin_level::high));
-        BOOST_CHECK(!bbb::gpio::any(bbb::gpio::pin_level::low));
+        REQUIRE(bbb::gpio::any(bbb::gpio::pin_level::high));
+        REQUIRE_FALSE(bbb::gpio::any(bbb::gpio::pin_level::low));
 
         if (!IS_BBB_ARCH) {
             return;
@@ -53,10 +49,10 @@ namespace test {
         ogpio << bbb::gpio::pin_level::low;
     }
 
-    /**
+/**
  * \brief Open GPIO 67 as input and toggle the state.
  */
-    BOOST_AUTO_TEST_CASE(ReadGPIO)
+    TEST_CASE("Active and read on GPIO", "[gpio]")
     {
         if (!IS_BBB_ARCH) {
             return;
@@ -74,7 +70,7 @@ namespace test {
 
         igpio >> lvl;
 
-        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
+        REQUIRE(bbb::gpio::pin_level::low == lvl);
 
         auto event_low_counter = 0;
         auto event_high_counter = 0;
@@ -91,18 +87,16 @@ namespace test {
         ogpio << bbb::gpio::pin_level::high;
         igpio >> lvl;
 
-        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::high, lvl);
+        REQUIRE(bbb::gpio::pin_level::high == lvl);
 
         ogpio << bbb::gpio::pin_level::low;
         igpio >> lvl;
 
-        BOOST_CHECK_EQUAL(bbb::gpio::pin_level::low, lvl);
+        REQUIRE(bbb::gpio::pin_level::low == lvl);
 
-        BOOST_CHECK_EQUAL(2, event_low_counter);
-        BOOST_CHECK_EQUAL(1, event_high_counter);
+        REQUIRE(2 == event_low_counter);
+        REQUIRE(1 == event_high_counter);
     }
-
-    BOOST_AUTO_TEST_SUITE_END() // BOOST_AUTO_TEST_SUITE(ActiveGPIO)
 
 } // namespace test
 } // namespace bbb

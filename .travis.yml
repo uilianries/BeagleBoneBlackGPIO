@@ -1,40 +1,30 @@
-# Become Ubuntu 14.04 Trusty 
-sudo: required
-dist: trusty
+env:
+   global:
+     - CONAN_REFERENCE: "BeagleBoneBlackGPIO/0.2.0"
+     - CONAN_USERNAME: "uilianries"
+     - CONAN_CHANNEL: "ci"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/uilianries/conan"
 
-language: cpp
+linux: &linux
+   os: linux
+   sudo: required
+   language: python
+   python: "3.6"
+   services:
+     - docker
+osx: &osx
+   os: osx
+   language: generic
+matrix:
+   include:
 
-compiler:
-  - gcc
-  - clang
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - g++-5
-
-os:
-  - linux
-
-before_install:
-  - sudo apt-get install -y -qq cmake libboost1.55-all-dev cppcheck clang-3.6 clang-format-3.6 valgrind doxygen curl
-  - git clone https://github.com/uilianries/3rdParty.git && cd 3rdParty && sudo dpkg -i libpoco_1.7-amd64.deb && cd ..
+      - <<: *linux
+        env: CONAN_GCC_VERSIONS=5.4 CONAN_DOCKER_IMAGE=lasote/conangcc54 CONAN_ARCHS=x86_64
 
 install:
-  if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
 
 script:
-  - script/doxygen.sh
-  - script/static-analysis.sh
-  - script/linter.sh
-  - script/build.sh --install
-  - script/valgrind.sh
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
-
-branches:
-  only:
-    - develop
-    - master
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh

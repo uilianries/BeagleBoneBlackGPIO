@@ -4,3 +4,5 @@ doc/doxygen.log
 *.log
 .idea
 cscope.*
+test_package/*.pyc
+test_package/build/*
